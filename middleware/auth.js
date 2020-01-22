@@ -7,7 +7,7 @@ const SECRET = process.env.JWT_SECRET || 'super-secret-i-really-like-cats';
 module.exports = () => {
     return async (ctx, next) => {
         // Token can either come from a cookie or a body field
-        const token = req.cookies.token;
+        const token = ctx.cookie.token;
 
         // Make sure the request has come in with a token
         if (token === undefined) {
@@ -23,10 +23,9 @@ module.exports = () => {
         // Check for invalid signature and handle
         try {
             const vtoken = jwt.verify(token, SECRET);
-            const user = await req.db.models.user.findByPk(vtoken.userid);
+            const user = await ctx.db.models.user.findByPk(vtoken.userid);
 
             console.log(`Checking permissions for user with id: ${vtoken.userid}`);
-            console.log(`Is user admin: ${user.admin}`);
 
 
             ctx.user = user;
