@@ -1,0 +1,29 @@
+{
+  "name": "worldpoo.ps",
+  "version": "0.0.1",
+  "description": "A platform for sharing bathroom details",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DomThePorcupine/worldpoo.ps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DomThePorcupine/worldpoo.ps/issues"
+  },
+  "homepage": "https://github.com/DomThePorcupine/worldpoo.ps#readme",
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-jsdoc": "^20.3.1"
+  }
+}
