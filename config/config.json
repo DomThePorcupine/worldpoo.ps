@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "wpoop_development",
+    "host": "0.0.0.0",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "wpoop_test",
+    "host": "0.0.0.0",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "wpoop_production",
+    "host": "0.0.0.0",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}

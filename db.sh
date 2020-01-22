@@ -1,0 +1,1 @@
+docker run --name wpoops -e POSTGRES_PASSWORD=vsecure-password -e POSTGRES_USER=pooper -e POSTGRES_DB=wpoops -p 5432:5432 -d postgres:alpine
