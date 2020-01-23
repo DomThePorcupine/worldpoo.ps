@@ -11,7 +11,7 @@ stages:
 before_script:
   - psql -c 'create database wpoops;' -U postgres
   - psql -c "create user pooper with password 'vsecure-password' createdb;"
-  - psql -c grant all privileges on database wpoops to pooper;' -U postgres
+  - psql -c 'grant all privileges on database wpoops to pooper;' -U postgres
 
 jobs:
   include:
