@@ -19,7 +19,7 @@ module.exports = class Database extends EventEmitter {
  *
  * @param {boolean} force - When booting, should we drop all existing tables first
  */
-    constructor(force = false) {
+    constructor (force = false) {
         super(); // For event emitter
 
         this.sequelize = new Sequelize(DB_URL);

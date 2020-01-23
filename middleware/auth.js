@@ -6,12 +6,19 @@ const SECRET = process.env.JWT_SECRET || 'super-secret-i-really-like-cats';
 
 module.exports = () => {
     return async (ctx, next) => {
-        // Token can either come from a cookie or a body field
+        if (ctx.cookie === undefined) {
+            ctx.body = {
+                response: 'unauthorized',
+            };
+
+            ctx.status = 403;
+            return;
+        }
+
         const token = ctx.cookie.token;
 
         // Make sure the request has come in with a token
         if (token === undefined) {
-            // For now also accept tokens passed in the body
             ctx.body = {
                 response: 'unauthorized',
             };
