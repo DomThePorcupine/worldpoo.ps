@@ -9,7 +9,7 @@ stages:
   - test
 
 before_script:
-  - psql -c 'create user pooper with password \'vsecure-password\' createdb;'
+  - psql -c "create user pooper with password 'vsecure-password' createdb;"
   - psql -c 'create database wpoops;' -U pooper
 
 jobs:
