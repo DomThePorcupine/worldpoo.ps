@@ -14,7 +14,31 @@ const router = new Router({
     prefix: '/auth',
 });
 
-router.post('/signup', body(), params(['username', 'password']), async (ctx) => {
+/**
+ * @api {post} api/v1/auth/register Register as a new user
+ * @apiName Register
+ * @apiGroup Auth
+ *
+ * @apiParam {string} username The new username
+ * @apiParam {string} password The new password
+ *
+ * @apiSuccess {String} response The response string
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "response": "ok"
+ *     }
+ *
+ * @apiError UsernameExists The username is already taken
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "response": "username already exists."
+ *     }
+ */
+router.post('/register', body(), params(['username', 'password']), async (ctx) => {
     const body = ctx.request.body;
 
     const user = await ctx.db.models.user.findAll({ where: { username: body.username } });
@@ -24,7 +48,7 @@ router.post('/signup', body(), params(['username', 'password']), async (ctx) => 
             response: 'username already exists.',
         };
 
-        ctx.status = 500;
+        ctx.status = 400;
         return;
     }
 
@@ -43,6 +67,30 @@ router.post('/signup', body(), params(['username', 'password']), async (ctx) => 
     return;
 });
 
+/**
+ * @api {post} api/v1/auth/login Login as a user
+ * @apiName Login
+ * @apiGroup Auth
+ *
+ * @apiParam {string} username The username
+ * @apiParam {string} password The password
+ *
+ * @apiSuccess {String} response The response string
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "response": "success"
+ *     }
+ *
+ * @apiError InvalidCredentials The username / password combo is invalid
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 403 Forbidden
+ *     {
+ *       "response": "failure"
+ *     }
+ */
 router.post('/login', body(), params(['username', 'password']), async (ctx) => {
     const body = ctx.request.body;
 

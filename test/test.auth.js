@@ -8,11 +8,11 @@ const app = require('..');
 
 chai.use(chaiHttp);
 
-describe('Stall actions', () => {
+describe('Auth actions', () => {
     // Check forced auth
-    it('Creating a stall when not logged in should fail', (done) => {
+    it('Create a new user should succeed with valid username/password', (done) => {
         chai.request(app)
-            .post('/api/v1/stall')
+            .post('/api/v1/auth')
             .send({})
             .end((err, res) => {
                 expect(err).to.be.null;
