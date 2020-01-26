@@ -12,6 +12,7 @@ const router = new Router({
     prefix: '/rating',
 });
 
+
 router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (ctx) => {
     const body = ctx.request.body;
 
@@ -30,7 +31,7 @@ router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (
 
     if (ratings.length > 0) {
         ctx.body = {
-            response: 'You have already given a review!',
+            response: 'you have already given a review',
         };
 
         ctx.status = 400;
