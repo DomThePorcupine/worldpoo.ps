@@ -10,23 +10,56 @@ const router = new Router({
     prefix: '/tale',
 });
 
-router.post('/', body(), auth(), params(['taleText', 'stallid']), async (ctx) => {
+/**
+ * @api {post} api/v1/tale Post a tale
+ * @apiName CreateTale
+ * @apiGroup Tale
+ *
+ * @apiParam {string} taleText The text for the tale
+ * @apiParam {number} stallId The id of the stall this tale belongs to
+ *
+ * @apiSuccess {String} response The response string
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "response": "success"
+ *     }
+ *
+ * @apiError StallDoesNotExist A stall with that id does not exist
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "response": "stall not found"
+ *     }
+ *
+ * @apiError TaleTextTooLong The tale is too long
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "response": "failure",
+ *       "reason": "Tale too long, please keep them less than 560 characters"
+ *     }
+ */
+router.post('/', body(), auth(), params(['taleText', 'stallId']), async (ctx) => {
     const body = ctx.request.body;
 
-    if (body.taleText.length > 254) {
+    if (body.taleText.length > 560) {
         ctx.body = {
             response: 'failure',
-            reason: 'Tale too long, please keep them less than 255 characters',
+            reason: 'Tale too long, please keep them less than 560 characters',
         };
         ctx.status = 400;
         return;
     }
 
-    const stall = await ctx.db.models.stall.findByPk(body.stallid);
+    const stall = await ctx.db.models.stall.findByPk(body.stallId);
 
     if (stall === null) {
         ctx.body = {
-            response: 'stall not found.',
+            response: 'stall not found',
         };
 
         ctx.status = 400;
@@ -42,24 +75,7 @@ router.post('/', body(), auth(), params(['taleText', 'stallid']), async (ctx) =>
     await stall.addTale(nTale);
 
     ctx.body = {
-        response: nTale.id,
-    };
-    return;
-});
-
-router.get('/:id', auth(), async (ctx) => {
-    const tale = await ctx.db.models.tale.findByPk(ctx.params.id);
-
-    if (tale === null) {
-        ctx.body = {
-            response: 'not found',
-        };
-
-        ctx.status = 404;
-        return;
-    }
-    ctx.body = {
-        tale,
+        response: 'success',
     };
     return;
 });

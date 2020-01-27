@@ -13,10 +13,52 @@ const router = new Router({
 });
 
 
+<<<<<<< HEAD
 router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (ctx) => {
+=======
+/**
+ * @api {post} api/v1/rating Rate a stall
+ * @apiName Rate
+ * @apiGroup Rating
+ *
+ * @apiParam {number} stallId The stall to give a rating to
+ * @apiParam {number} score The score to give this stall
+ *
+ * @apiSuccess {String} response The response string
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "response": "success"
+ *     }
+ *
+ * @apiError InvalidStall The stall does not exist
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "response": "stall not found"
+ *     }
+ *
+ * @apiError InvalidScore The score given is not between 0 and 5
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "response": "invalid score"
+ *     }
+ *
+ * @apiError ReviewAlreadyGiven This user has already reviewed this stall
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Bad Request
+ *     {
+ *       "response": "you have already given a review"
+ *     }
+ */
+router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
+>>>>>>> master
     const body = ctx.request.body;
 
-    const stall = await ctx.db.models.stall.findByPk(body.stallid);
+    const stall = await ctx.db.models.stall.findByPk(body.stallId);
 
     if (stall === null) {
         ctx.body = {
@@ -32,6 +74,23 @@ router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (
     if (ratings.length > 0) {
         ctx.body = {
             response: 'you have already given a review',
+<<<<<<< HEAD
+=======
+        };
+
+        ctx.status = 400;
+        return;
+    }
+
+    // Force score to be a number
+    body.score = Number(body.score);
+
+
+    // Check the score is between 0 and 5
+    if (body.score < 0 || body.score > 5) {
+        ctx.body = {
+            response: 'invalid score',
+>>>>>>> master
         };
 
         ctx.status = 400;
@@ -39,15 +98,15 @@ router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (
     }
 
     const nRating = await ctx.db.models.rating.create({
-        score: Number(body.score), // Force numbers
-        review: body.review,
+        score: body.score,
     });
 
-    stall.addRating(nRating);
-    ctx.user.addRating(nRating);
+    // Make the associations
+    await stall.addRating(nRating);
+    await ctx.user.addRating(nRating);
 
     ctx.body = {
-        response: nRating.id,
+        response: 'success',
     };
 
     return;

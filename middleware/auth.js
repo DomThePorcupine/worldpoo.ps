@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // -- Constants -- //
 const SECRET = process.env.JWT_SECRET || 'super-secret-i-really-like-cats';
 
-module.exports = () => {
+module.exports = (admin = false) => {
     return async (ctx, next) => {
         if (ctx.cookie === undefined) {
             ctx.body = {
@@ -30,9 +30,20 @@ module.exports = () => {
         // Check for invalid signature and handle
         try {
             const vtoken = jwt.verify(token, SECRET);
-            const user = await ctx.db.models.user.findByPk(vtoken.userid);
+            const user = await ctx.db.models.user.findByPk(vtoken.userId);
 
-            console.log(`Checking permissions for user with id: ${vtoken.userid}`);
+            console.log(`Checking permissions for user with id: ${vtoken.userId}`);
+
+            if (admin) {
+                if (!vtoken.admin) {
+                    ctx.body = {
+                        response: 'unauthorized',
+                    };
+
+                    ctx.status = 403;
+                    return;
+                }
+            }
 
 
             ctx.user = user;

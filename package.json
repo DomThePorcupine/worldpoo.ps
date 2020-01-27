@@ -9,8 +9,8 @@
     "dev:frontend": "parcel frontend/index.html",
     "build:frontend": "parcel build frontend/index.html",
     "lint": "eslint .",
-    "doc": "apidoc -i routes/ -o pub/",
-    "heroku-postbuild": "npm run doc"
+    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
