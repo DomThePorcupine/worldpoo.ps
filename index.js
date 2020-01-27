@@ -24,7 +24,7 @@ app.use(async (ctx, next) => {
 
 app.use(routes.routes());
 
-app.use(mount('/api/v1/docs', serve('./pub')));
+app.use(mount('/', serve('./pub')));
 
 module.exports = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server up and running on port: ${PORT}`);
