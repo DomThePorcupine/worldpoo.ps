@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowedNull: false,
         },
-        review: DataTypes.STRING,
     }, {});
     Rating.associate = function (models) {
         // associations can be defined here

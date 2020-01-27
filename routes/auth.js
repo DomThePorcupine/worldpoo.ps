@@ -15,59 +15,6 @@ const router = new Router({
 });
 
 /**
- * @api {post} api/v1/auth/register Register as a new user
- * @apiName Register
- * @apiGroup Auth
- *
- * @apiParam {string} username The new username
- * @apiParam {string} password The new password
- *
- * @apiSuccess {String} response The response string
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "response": "ok"
- *     }
- *
- * @apiError UsernameExists The username is already taken
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request
- *     {
- *       "response": "username already exists."
- *     }
- */
-router.post('/register', body(), params(['username', 'password']), async (ctx) => {
-    const body = ctx.request.body;
-
-    const user = await ctx.db.models.user.findAll({ where: { username: body.username } });
-
-    if (user.length > 0) {
-        ctx.body = {
-            response: 'username already exists.',
-        };
-
-        ctx.status = 400;
-        return;
-    }
-
-    const hsh = bcrypt.hashSync(body.password, 10);
-
-    await ctx.db.models.user.create({
-        username: body.username,
-        password: hsh,
-    });
-
-
-    ctx.body = {
-        response: 'ok',
-    };
-
-    return;
-});
-
-/**
  * @api {post} api/v1/auth/login Login as a user
  * @apiName Login
  * @apiGroup Auth
@@ -99,7 +46,12 @@ router.post('/login', body(), params(['username', 'password']), async (ctx) => {
     const match = await bcrypt.compare(body.password, user.password);
 
     if (match) {
-        ctx.cookies.set('token', jwt.sign({ userid: user.id, username: user.username }, SECRET));
+        ctx.cookies.set('token', jwt.sign({
+            userId: user.id,
+            username: user.username,
+            vip: user.vip,
+            admin: user.admin,
+        }, SECRET));
         ctx.body = {
             response: 'success',
         };

@@ -3,3 +3,5 @@ env/
 *.py
 .nyc_output
 pub/
+dist/
+.cache/

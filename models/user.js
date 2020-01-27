@@ -7,6 +7,16 @@ module.exports = (sequelize, DataTypes) => {
             unique: true,
         },
         password: DataTypes.STRING,
+        vip: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
+        admin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
     }, {});
     User.associate = function (models) {
         // associations can be defined here

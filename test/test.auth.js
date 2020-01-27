@@ -12,8 +12,11 @@ describe('Auth actions', () => {
     // Check forced auth
     it('Create a new user should succeed with valid username/password', (done) => {
         chai.request(app)
-            .post('/api/v1/auth')
-            .send({})
+            .post('/api/v1/auth/register')
+            .send({
+                username: Math.random().toString(36),
+                password: 'password',
+            })
             .end((err, res) => {
                 expect(err).to.be.null;
                 expect(res).to.have.status(403);
