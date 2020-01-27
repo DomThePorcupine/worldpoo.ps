@@ -43,20 +43,23 @@ router.post('/login', body(), params(['username', 'password']), async (ctx) => {
 
     const [user] = await ctx.db.models.user.findAll({ where: { username: body.username } });
 
-    const match = await bcrypt.compare(body.password, user.password);
+    if (user) {
+        const match = await bcrypt.compare(body.password, user.password);
 
-    if (match) {
-        ctx.cookies.set('token', jwt.sign({
-            userId: user.id,
-            username: user.username,
-            vip: user.vip,
-            admin: user.admin,
-        }, SECRET));
-        ctx.body = {
-            response: 'success',
-        };
-        return;
+        if (match) {
+            ctx.cookies.set('token', jwt.sign({
+                userId: user.id,
+                username: user.username,
+                vip: user.vip,
+                admin: user.admin,
+            }, SECRET));
+            ctx.body = {
+                response: 'success',
+            };
+            return;
+        }
     }
+
 
     ctx.body = {
         response: 'failure',

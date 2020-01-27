@@ -1,6 +1,7 @@
 // -- Third party imports -- //
 const Sequelize = require('sequelize');
 const { EventEmitter } = require('events');
+const bcrypt = require('bcrypt');
 
 // -- Local imports -- //
 const user = require('./models/user');
@@ -53,7 +54,7 @@ module.exports = class Database extends EventEmitter {
                     if (admin.length === 0) {
                         await this.models.user.create({
                             username: DEFAULT_USERNAME,
-                            password: DEFAULT_PASSWORD,
+                            password: bcrypt.hashSync(DEFAULT_PASSWORD, 10),
                             vip: true,
                         });
                     }
