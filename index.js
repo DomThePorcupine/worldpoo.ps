@@ -12,7 +12,7 @@ const Database = require('./db');
 // -- Constants -- //
 const PORT = process.env.PORT || 5000;
 const app = new Koa();
-const db = new Database(false); // Dont constantly delete everything
+const db = new Database(true); // Dont constantly delete everything
 
 app.use(logger());
 app.use(cookie());
