@@ -8,6 +8,7 @@
     "dev": "nodemon index.js",
     "lint": "eslint .",
     "doc": "apidoc -i routes/ -o pub/",
+    "build": "npm run doc",
     "heroku-postbuild": "npm run doc"
   },
   "repository": {
