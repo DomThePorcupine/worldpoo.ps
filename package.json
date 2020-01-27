@@ -7,9 +7,7 @@
     "test": "nyc mocha",
     "dev": "nodemon index.js",
     "lint": "eslint .",
-    "doc": "apidoc -i routes/ -o pub/",
-    "build": "npm run doc",
-    "heroku-postbuild": "npm run doc && ls -al pub",
+    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs",
     "start": "node index.js"
   },
   "repository": {
