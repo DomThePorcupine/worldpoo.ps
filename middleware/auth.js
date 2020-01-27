@@ -4,14 +4,21 @@ const jwt = require('jsonwebtoken');
 // -- Constants -- //
 const SECRET = process.env.JWT_SECRET || 'super-secret-i-really-like-cats';
 
-module.exports = () => {
+module.exports = (admin = false) => {
     return async (ctx, next) => {
-        // Token can either come from a cookie or a body field
+        if (ctx.cookie === undefined) {
+            ctx.body = {
+                response: 'unauthorized',
+            };
+
+            ctx.status = 403;
+            return;
+        }
+
         const token = ctx.cookie.token;
 
         // Make sure the request has come in with a token
         if (token === undefined) {
-            // For now also accept tokens passed in the body
             ctx.body = {
                 response: 'unauthorized',
             };
@@ -23,9 +30,20 @@ module.exports = () => {
         // Check for invalid signature and handle
         try {
             const vtoken = jwt.verify(token, SECRET);
-            const user = await ctx.db.models.user.findByPk(vtoken.userid);
+            const user = await ctx.db.models.user.findByPk(vtoken.userId);
 
-            console.log(`Checking permissions for user with id: ${vtoken.userid}`);
+            console.log(`Checking permissions for user with id: ${vtoken.userId}`);
+
+            if (admin) {
+                if (!vtoken.admin) {
+                    ctx.body = {
+                        response: 'unauthorized',
+                    };
+
+                    ctx.status = 403;
+                    return;
+                }
+            }
 
 
             ctx.user = user;

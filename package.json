@@ -4,8 +4,11 @@
   "description": "A platform for sharing bathroom details",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js"
+    "test": "nyc mocha",
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "doc": "apidoc -i routes/ -o pub/",
+    "heroku-postbuild": "npm run doc"
   },
   "repository": {
     "type": "git",
@@ -25,16 +28,23 @@
     "koa-bodyparser": "^4.2.1",
     "koa-cookie": "^1.0.0",
     "koa-logger": "^3.2.1",
+    "koa-mount": "^4.0.0",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "pg": "^7.17.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.3"
   },
   "devDependencies": {
+    "apidoc": "^0.20.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-jsdoc": "^20.3.1",
+    "mocha": "^7.0.0",
     "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
     "sequelize-cli": "^5.5.1"
   }
 }

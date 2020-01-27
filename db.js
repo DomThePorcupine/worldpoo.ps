@@ -11,7 +11,8 @@ const rating = require('./models/rating');
 
 // -- Constants -- //
 const DB_URL = process.env.DATABASE_URL || 'postgres://pooper:vsecure-password@0.0.0.0:5432/wpoops';
-
+const DEFAULT_USERNAME = process.env.DEFAULT_USERNAME || 'admin';
+const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || 'vsecure-lmao';
 
 module.exports = class Database extends EventEmitter {
     /**
@@ -19,7 +20,7 @@ module.exports = class Database extends EventEmitter {
  *
  * @param {boolean} force - When booting, should we drop all existing tables first
  */
-    constructor(force = false) {
+    constructor (force = false) {
         super(); // For event emitter
 
         this.sequelize = new Sequelize(DB_URL);
@@ -45,7 +46,18 @@ module.exports = class Database extends EventEmitter {
 
                 // For development purposes leave this on. Eventually should create
                 // migrations
-                this.sequelize.sync({ force }).then(() => {
+                this.sequelize.sync({ force }).then(async () => {
+                    // Create default users
+                    const admin = await this.models.user.findAll({ where: { username: DEFAULT_USERNAME } });
+
+                    if (admin.length === 0) {
+                        await this.models.user.create({
+                            username: DEFAULT_USERNAME,
+                            password: DEFAULT_PASSWORD,
+                            vip: true,
+                        });
+                    }
+
                     this.emit('ready'); // Let everything know we are good to go
                 });
             }).catch((err) => {

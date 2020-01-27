@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - node
+services:
+  - postgresql
+
+stages:
+  - lint
+  - test
+
+before_script:
+  - psql -c 'create database wpoops;' -U postgres
+  - psql -c "create user pooper with password 'vsecure-password' createdb;"
+  - psql -c 'grant all privileges on database wpoops to pooper;' -U postgres
+
+jobs:
+  include:
+    - stage: lint
+      script: npm run test
+    - stage: test
+      script: npm run test

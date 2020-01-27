@@ -7,6 +7,7 @@ const version = require('./version');
 const auth = require('./auth');
 const stall = require('./stall');
 const rating = require('./rating');
+const user = require('./user');
 
 const router = new Router({
     prefix: '/api/v1',
@@ -17,6 +18,7 @@ router.use(version.routes());
 router.use(auth.routes());
 router.use(stall.routes());
 router.use(rating.routes());
+router.use(user.routes());
 
 
 module.exports = router;
