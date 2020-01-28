@@ -11,7 +11,7 @@
     "rollback": "sequelize db:drop --url $DATABASE_URL",
     "migrate": "sequelize db:migrate --url $DATABASE_URL",
     "lint": "eslint .",
-    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs && npm run migrate",
+    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs && npm run migrate && echo \"Migration done.\"",
     "start": "node index.js"
   },
   "repository": {
