@@ -14,7 +14,8 @@
         "mocha": true
     },
     "extends": [
-        "google"
+        "google",
+        "plugin:react/recommended"
     ],
     "plugins": [
         "jsdoc"

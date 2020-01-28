@@ -1,0 +1,50 @@
+.stall-info-container {
+    width: 80%;
+    margin: 0px auto;
+    text-align: center;
+}
+
+.stall-info-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.stall-info-header-container {
+    
+}
+
+.stall-info-screen-header {
+    display: inline-block;
+}
+
+.stall-info-screen-stall-name {
+    display: inline-block;
+    font-weight: bold;
+    color: #184AFC;
+    margin-left: 15px;
+}
+
+.stall-info-toilet {
+    margin-top: 80px;
+    width: 40%;
+}
+
+.stall-info-read-text {
+    margin-top: 80px;
+}
+
+.stall-info-share-text {
+    margin-top: 40px;
+}
+
+.stall-info-action-btn {
+    width: 80%;
+    position: absolute;
+    bottom: 100px;
+    left: 10%;
+}

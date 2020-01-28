@@ -1,0 +1,7 @@
+.defaultTextArea {
+    background-color: transparent;
+    outline: none;
+    border: 1px solid #D2D2D2;
+    padding: 5px;
+    width: calc(100% - 100px);
+}

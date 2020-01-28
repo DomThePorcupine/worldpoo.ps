@@ -1,0 +1,16 @@
+.defaultPrimaryButton {
+    width: 100%;
+    height: 150px;
+    text-align: center;
+    background-color: #E5E5E5;
+    border: none;
+    outline: none;
+}
+
+.defaultPrimaryButtonText {
+    font-size: 35px;
+}
+
+.defaultPrimaryInactiveButton {
+    opacity: 30%;
+}
