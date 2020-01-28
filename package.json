@@ -8,8 +8,10 @@
     "dev:backend": "nodemon --ignore './dist/' --ignore './frontend/' index.js",
     "dev:frontend": "parcel frontend/index.html",
     "build:frontend": "parcel build frontend/index.html",
+    "rollback": "sequelize db:drop --url $DATABASE_URL",
+    "migrate": "sequelize db:migrate --url $DATABASE_URL",
     "lint": "eslint .",
-    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs",
+    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs && npm run migrate",
     "start": "node index.js"
   },
   "repository": {

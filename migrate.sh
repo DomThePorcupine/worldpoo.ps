@@ -1,0 +1,1 @@
+DATABASE_URL='postgres://pooper:vsecure-password@0.0.0.0:5432/wpoops' npm run migrate
