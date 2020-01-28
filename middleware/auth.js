@@ -32,7 +32,7 @@ module.exports = (admin = false) => {
             const vtoken = jwt.verify(token, SECRET);
             const user = await ctx.db.models.user.findByPk(vtoken.userId);
 
-            console.log(`Checking permissions for user with id: ${vtoken.userId}`);
+            console.log(`Checking permissions for user with info: ${JSON.stringify(vtoken)}`);
 
             if (admin) {
                 if (!vtoken.admin) {

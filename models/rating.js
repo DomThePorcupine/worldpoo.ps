@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     }, {});
     Rating.associate = function (models) {
         // associations can be defined here
-        Rating.belongsTo(models.Stall, { as: 'stall' });
-        Rating.belongsTo(models.User);
+        Rating.belongsTo(models.Stall, { foreignKey: 'StallId' });
+        Rating.belongsTo(models.User, { foreignKey: 'UserId' });
     };
     return Rating;
 };

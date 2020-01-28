@@ -20,6 +20,22 @@ module.exports = {
             username: Sequelize.DataTypes.STRING,
             // eslint-disable-next-line new-cap
             taleText: Sequelize.DataTypes.STRING(560),
+            UserId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Users',
+                    key: 'id'
+                },
+                allowNull: false
+            },
+            StallId: {
+                type: Sequelize.INTEGER,
+                references: {
+                    model: 'Stalls',
+                    key: 'id'
+                },
+                allowNull: false
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
@@ -28,20 +44,6 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             },
-            userId: {
-                type: Sequelize.DataTypes.INTEGER,
-                references: {
-                    model: 'Users',
-                    key: 'id'
-                }
-            },
-            stallId: {
-                type: Sequelize.DataTypes.INTEGER,
-                references: {
-                    model: 'Stalls',
-                    key: 'id'
-                }
-            }
         })
     },
 

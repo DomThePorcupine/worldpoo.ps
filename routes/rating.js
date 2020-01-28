@@ -65,7 +65,8 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
         return;
     }
 
-    const ratings = await ctx.user.getRatings({ where: { StallId: stall.id } });
+    const ratings = await ctx.user.getRatings();
+    console.log(ratings);
 
     if (ratings.length > 0) {
         ctx.body = {
@@ -78,6 +79,7 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
 
     // Force score to be a number
     body.score = Number(body.score);
+    console.log(body.score);
 
 
     // Check the score is between 0 and 5
@@ -90,13 +92,15 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
         return;
     }
 
-    const nRating = await ctx.db.models.rating.create({
+    await ctx.db.models.rating.create({
         score: body.score,
+        StallId: stall.id,
+        UserId: ctx.user.id,
     });
 
     // Make the associations
-    await stall.addRating(nRating);
-    await ctx.user.addRating(nRating);
+    // await stall.addRating(nRating);
+    // await ctx.user.addRating(nRating);
 
     ctx.body = {
         response: 'success',

@@ -66,13 +66,12 @@ router.post('/', body(), auth(), params(['taleText', 'stallId']), async (ctx) =>
         return;
     }
 
-    const nTale = await ctx.db.models.tale.create({
+    await ctx.db.models.tale.create({
         taleText: body.taleText,
         username: ctx.user.username,
+        UserId: ctx.user.id,
+        StallId: stall.id,
     });
-
-    await ctx.user.addTale(nTale);
-    await stall.addTale(nTale);
 
     ctx.body = {
         response: 'success',

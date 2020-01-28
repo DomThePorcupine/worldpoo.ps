@@ -18,6 +18,7 @@ module.exports = {
             },
             name: Sequelize.DataTypes.STRING,
             address: Sequelize.DataTypes.STRING,
+
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

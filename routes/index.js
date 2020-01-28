@@ -8,6 +8,7 @@ const auth = require('./auth');
 const stall = require('./stall');
 const rating = require('./rating');
 const user = require('./user');
+const vote = require('./vote');
 
 const router = new Router({
     prefix: '/api/v1',
@@ -19,6 +20,7 @@ router.use(auth.routes());
 router.use(stall.routes());
 router.use(rating.routes());
 router.use(user.routes());
+router.use(vote.routes());
 
 
 module.exports = router;

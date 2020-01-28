@@ -10,16 +10,12 @@ module.exports = {
           return queryInterface.createTable('users', { id: Sequelize.INTEGER });
         */
 
-        return queryInterface.createTable('Ratings', {
+        return queryInterface.createTable('Votes', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
-            },
-            score: {
-                type: Sequelize.DataTypes.INTEGER,
-                allowedNull: false,
             },
             UserId: {
                 type: Sequelize.INTEGER,
@@ -29,10 +25,10 @@ module.exports = {
                 },
                 allowNull: false
             },
-            StallId: {
+            TaleId: {
                 type: Sequelize.INTEGER,
                 references: {
-                    model: 'Stalls',
+                    model: 'Tales',
                     key: 'id'
                 },
                 allowNull: false
@@ -56,6 +52,6 @@ module.exports = {
           Example:
           return queryInterface.dropTable('users');
         */
-        return queryInterface.dropTable('Ratings')
+        return queryInterface.dropTable('Votes')
     }
 };
