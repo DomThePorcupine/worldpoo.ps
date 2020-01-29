@@ -16,8 +16,8 @@ const router = new Router({
  * @apiName CastVote
  * @apiGroup Vote
  *
- * @apiParam {number} stallId The new username
- * @apiParam {string} password The new password
+ * @apiParam {number} taleId The tale to vote on
+ * @apiParam {boolean} vote true if upvote, false if downvote
  *
  * @apiSuccess {String} response The response string
  *
@@ -34,22 +34,27 @@ const router = new Router({
  *     {
  *       "response": "already voted"
  *     }
- * @apiError StallDoesNotExist The given stall does not exist
+ * @apiError TaleDoesNotExist The given tale does not exist
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 404 Bad Request
  *     {
- *       "response": "no stall"
+ *       "response": "no tale"
  *     }
  */
-router.post('/', auth(), body(), params(['stallId', 'vote']), async (ctx) => {
+router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
     const body = ctx.request.body;
+
+    // Force what was sent to be a boolean
+    body.vote = Boolean(body.vote);
+
+
     const oldVote = await ctx.db.models.vote.findAll({ where: {
-        stallId: body.stallId,
-        userId: ctx.user.id,
+        TaleId: body.taleId,
+        UserId: ctx.user.id,
     } });
 
-    if (oldVote) {
+    if (oldVote.length > 0) {
         ctx.body = {
             response: 'already voted',
         };
@@ -58,22 +63,29 @@ router.post('/', auth(), body(), params(['stallId', 'vote']), async (ctx) => {
         return;
     }
 
-    const stall = await ctx.db.models.stall.findByPk(body.stallId);
+    const tale = await ctx.db.models.tale.findByPk(body.taleId);
 
-    if (!stall) {
+    console.log(tale);
+
+    if (!tale) {
         ctx.body = {
-            response: 'no stall',
+            response: 'no tale',
         };
 
         ctx.status = 404;
         return;
     }
-    const nVote = await ctx.db.models.vote.create({
-        vote: Boolean(body.vote), // Force boolean
-    });
 
-    await ctx.user.addVote(nVote);
-    await stall.addVote(nVote);
+    // adjust score based on this vote
+    tale.currentScore = body.vote ? 1 : -1;
+    await tale.save();
+
+    // Finally record the vote
+    await ctx.db.models.vote.create({
+        vote: body.vote, // Force boolean
+        UserId: ctx.user.id,
+        TaleId: tale.id,
+    });
 
     ctx.body = {
         response: 'ok',

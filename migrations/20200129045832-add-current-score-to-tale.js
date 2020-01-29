@@ -5,15 +5,15 @@ module.exports = {
         /*
           Add altering commands here.
           Return a promise to correctly handle asynchronicity.
-     
+    
           Example:
           return queryInterface.createTable('users', { id: Sequelize.INTEGER });
         */
 
-        return queryInterface.addColumn('Votes', 'vote', {
-            type: Sequelize.DataTypes.BOOLEAN,
+        return queryInterface.addColumn('Tales', 'currentScore', {
+            type: Sequelize.DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: false,
+            defaultValue: 0,
         })
     },
 
@@ -21,11 +21,10 @@ module.exports = {
         /*
           Add reverting commands here.
           Return a promise to correctly handle asynchronicity.
-     
+    
           Example:
           return queryInterface.dropTable('users');
         */
-
-        return queryInterface.removeColumn('Votes', 'vote')
+        return queryInterface.removeColumn('Tales', 'currentScore')
     }
 };

@@ -11,6 +11,56 @@ const router = new Router({
 });
 
 /**
+ * @api {get} api/v1/tale/:id Get info on a tale
+ * @apiName GetTale
+ * @apiGroup Tale
+ *
+ * @apiParam {number} id
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "response": "success"
+ *     }
+ *
+ * @apiError TaleDoesNotExist A tale with that id does not exist
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "response": "tale not found"
+ *     }
+ *
+ */
+router.get('/:id', auth(), async (ctx) => {
+    const tale = await ctx.db.models.tale.findByPk(ctx.params.id, {
+        attributes: ['currentScore', 'taleText'],
+        include: [{
+            model: ctx.db.models.stall,
+            as: 'stall',
+            attributes: ['address', 'name'],
+        }, {
+            model: ctx.db.models.user,
+            as: 'user',
+            attributes: ['username'],
+        }],
+    });
+
+    // If the tale doesn't exist give a 404
+    if (!tale) {
+        ctx.body = {
+            response: 'tale not found',
+        };
+
+        ctx.status = 404;
+        return;
+    }
+
+    ctx.body = tale;
+    return;
+});
+
+/**
  * @api {post} api/v1/tale Post a tale
  * @apiName CreateTale
  * @apiGroup Tale

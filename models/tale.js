@@ -4,11 +4,16 @@ module.exports = (sequelize, DataTypes) => {
         username: DataTypes.STRING,
         // eslint-disable-next-line new-cap
         taleText: DataTypes.STRING(560),
+        currentScore: {
+            type: DataTypes.INTEGER,
+            allowedNull: false,
+            defaultValue: 0,
+        },
     }, {});
     Tale.associate = function (models) {
         // associations can be defined here
-        Tale.belongsTo(models.User, { foreignKey: 'UserId' });
-        Tale.belongsTo(models.Stall, { foreignKey: 'StallId' });
+        Tale.belongsTo(models.User, { foreignKey: 'UserId', as: 'user' });
+        Tale.belongsTo(models.Stall, { foreignKey: 'StallId', as: 'stall' });
     };
     return Tale;
 };

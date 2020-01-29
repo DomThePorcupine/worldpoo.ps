@@ -66,7 +66,6 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
     }
 
     const ratings = await ctx.user.getRatings();
-    console.log(ratings);
 
     if (ratings.length > 0) {
         ctx.body = {
