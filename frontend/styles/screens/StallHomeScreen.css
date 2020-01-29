@@ -1,0 +1,33 @@
+.stallHomeScreenContainer {
+    width: 80%;
+    margin: 0px auto;
+}
+
+.stallHomeScreenPoopImg {
+    width: 20%;
+    margin: 0px auto;
+    display: block;
+    margin-top: 70px;
+}
+
+.stallHomeScreenRating {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.stallHomeScreenRatingMsg {
+    font-style: italic;
+    text-align: center;
+    margin-top: 60px;
+    font-size: 50px;
+}
+
+.stallHomeScreenRatingContainer {
+    margin: 0px auto;
+    margin-top: 50px;
+}
+
+.stallHomeScreenWriteBtn {
+    margin-top: 100px;
+}

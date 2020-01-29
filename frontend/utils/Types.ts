@@ -1,3 +1,9 @@
+export type TopNavButton = {
+    className?: string;
+    text: string;
+    onClick: () => void;
+  }
+
 export type StallTale = {
     taleText: string;
     username: string;

@@ -14,7 +14,7 @@ import '../styles/screens/StallInfoScreen.css';
 type StallInfoScreenProps = RouteComponentProps & {
     history: any;
     currentStall: StallInfo | undefined;
-    setCurrentStall: (stallInfo: StallInfo) => void;
+    getStallInfo: (stallId: string) => void;
 };
 
 type StallInfoScreenState = {};
@@ -26,33 +26,9 @@ class StallInfoScreen extends Component<StallInfoScreenProps, StallInfoScreenSta
     componentDidMount() {
         // Get stall info from backend using API
         if (!this.props.currentStall) {
-            this.getStallInfo('test_stall');
+            const stallId = window.location.pathname.split('/').slice(-1)[0];
+            this.props.getStallInfo(stallId);
         }
-    }
-
-    /**
-     * Gets stall info
-     * @param stallId - stall id to send to API
-     * @return {StallInfo} - stall info
-     */
-    getStallInfo(stallId: string) {
-        let result: StallInfo = {
-            address: '1601 Marys Ave. Suite 3G',
-            name: 'Deeplocal Stall #15',
-            tales: [
-                { taleText: 'Damn, that was a rough one.', username: 'Adnan' }, 
-                { taleText: '', username: 'Dom' }, 
-                { taleText: '', username: 'Taylor' }, 
-                { taleText: '', username: 'Andres' }, 
-            ],
-            ratings: [
-                { score: 3 },
-                { score: 5 },
-                { score: 4 },
-            ],
-        }
-        
-        this.props.setCurrentStall(result);
     }
 
     /**
@@ -67,18 +43,18 @@ class StallInfoScreen extends Component<StallInfoScreenProps, StallInfoScreenSta
         }
 
         return (
-            <div className="stall-info-container">
-                <div className="stall-info-content">
-                    <div className="stall-info-header-container">
-                        <DefaultHeader className="stall-info-screen-header" text={"Welcome to "} />
-                        <DefaultHeader className="stall-info-screen-stall-name" text={`${this.props.currentStall.name}!`} />
+            <div className="stallInfoContainer">
+                <div className="stallInfoContent">
+                    <div className="stallInfoHeaderContainer">
+                        <DefaultHeader className="stallInfoScreenHeader" text={"Welcome to "} />
+                        <DefaultHeader className="stallInfoScreenStallName" text={`${this.props.currentStall.name}!`} />
                     </div>
-                    <img className="stall-info-toilet" src={toiletImg} />
-                    <DefaultText className="stall-info-read-text" text="Read about stories that happened in the same exact stall you are in!" />
-                    <DefaultText className="stall-info-share-text" text="Share your experience with those who will use this stall in the future!" />
+                    <img className="stallInfoToilet" src={toiletImg} />
+                    <DefaultText className="stallInfoReadText" text="Read about stories that happened in the same exact stall you are in!" />
+                    <DefaultText className="stallInfoShareText" text="Share your experience with those who will use this stall in the future!" />
                 </div>
                 <DefaultPrimaryButton 
-                    className="stall-info-action-btn"
+                    className="stallInfoActionBtn"
                     text="Read Stories" 
                     onClick={() => { this.props.history.push('/stall/test_stall') }} 
                 />

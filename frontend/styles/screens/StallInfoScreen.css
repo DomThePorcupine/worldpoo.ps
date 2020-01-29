@@ -1,10 +1,10 @@
-.stall-info-container {
+.stallInfoContainer {
     width: 80%;
     margin: 0px auto;
     text-align: center;
 }
 
-.stall-info-content {
+.stallInfoContent {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -14,35 +14,35 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
-.stall-info-header-container {
+.stallInfoHeaderContainer {
     
 }
 
-.stall-info-screen-header {
+.stallInfoScreenHeader {
     display: inline-block;
 }
 
-.stall-info-screen-stall-name {
+.stallInfoScreenStallName {
     display: inline-block;
     font-weight: bold;
     color: #184AFC;
     margin-left: 15px;
 }
 
-.stall-info-toilet {
+.stallInfoToilet {
     margin-top: 80px;
     width: 40%;
 }
 
-.stall-info-read-text {
+.stallInfoReadText {
     margin-top: 80px;
 }
 
-.stall-info-share-text {
+.stallInfoShareText {
     margin-top: 40px;
 }
 
-.stall-info-action-btn {
+.stallInfoActionBtn {
     width: 80%;
     position: absolute;
     bottom: 100px;

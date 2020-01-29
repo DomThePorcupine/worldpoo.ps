@@ -1,0 +1,17 @@
+.stallStoryContainer {
+    margin-top: 30px;
+    border-bottom: 3px solid #D2D2D2;
+}
+
+.stallStoryUsername {
+    font-weight: bold;
+}
+
+.stallStoryText {
+    clear: both;
+}
+
+.stallStoryReadMore {
+    color: #184AFC;
+    font-style: italic;
+}

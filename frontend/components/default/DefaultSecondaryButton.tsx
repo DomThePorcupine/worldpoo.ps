@@ -10,6 +10,7 @@ type DefaultSecondaryButtonProps = {
   className?: string;
   style?: any;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 const DefaultSecondaryButton = ({
@@ -17,12 +18,15 @@ const DefaultSecondaryButton = ({
   className,
   style,
   onClick,
+  disabled,
 }: DefaultSecondaryButtonProps): JSX.Element => (
   <button
     type="button"
-    className={`defaultSecondaryButton ${className}`}
+    className={`defaultSecondaryButton ${className} ${disabled && 'defaultSecondaryInactiveButton'}`}
     style={style}
-    onMouseDown={() => { onClick(); }}
+    onMouseDown={() => {
+      if (!disabled) onClick();
+    }}
   >
     <DefaultText className="defaultSecondaryButtonText" text={text} />
   </button>

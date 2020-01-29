@@ -1,0 +1,25 @@
+.ratingsContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ratingCircle {
+    border-radius: 50%;
+    border: 10px solid #C4C4C4;
+    width: 10vw;
+    height: 10vw;
+}
+
+.ratingCircleSelected {
+    background-color: #C4C4C4;
+}
+
+.ratingText {
+    text-align: center;
+    line-height: 10vw;
+    font-size: 50px;
+}
+
+.ratingTextSelected {
+    font-weight: bold;
+}

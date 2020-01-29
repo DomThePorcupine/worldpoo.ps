@@ -1,4 +1,5 @@
 export const Routes = {
     HOME: '/',
-    STALL_INFO: '/stall/:stallid'
+    STALL_INFO: '/stall/info/:stallid',
+    STALL_HOME: '/stall/:stallid'
 };

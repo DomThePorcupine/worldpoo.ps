@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 // -- Our imports -- //
 import HomeScreen from '../screens/HomeScreen';
 import StallInfoScreen from '../screens/StallInfoScreen';
+import StallHomeScreen from '../screens/StallHomeScreen';
 import { Routes } from '../utils/Routes';
 import { StallInfo } from '../utils/Types';
 import '../styles/components/App.css';
@@ -24,11 +25,32 @@ class App extends Component<AppProps, AppState> {
             currentStall: undefined
         }
 
-        this.setCurrentStall = this.setCurrentStall.bind(this);
+        this.getStallInfo = this.getStallInfo.bind(this);
     }
 
-    setCurrentStall(stallInfo: StallInfo) {
-        this.setState({ currentStall: stallInfo });
+    /**
+     * Gets stall info
+     * @param stallId - stall id to send to API
+     * @return {StallInfo} - stall info
+     */
+    getStallInfo(stallId: string) {
+        let result: StallInfo = {
+            address: '1601 Marys Ave. Suite 3G',
+            name: 'Deeplocal Stall #15',
+            tales: [
+                { taleText: 'Damn, that was a rough one.', username: 'Adnan' }, 
+                { taleText: '', username: 'Dom' }, 
+                { taleText: '', username: 'Taylor' }, 
+                { taleText: '', username: 'Andres' }, 
+            ],
+            ratings: [
+                { score: 3 },
+                { score: 5 },
+                { score: 4 },
+            ],
+        }
+        
+        this.setState({ currentStall: result });
     }
 
     /**
@@ -46,7 +68,17 @@ class App extends Component<AppProps, AppState> {
                     component={() => 
                         <StallInfoScreen 
                             currentStall={this.state.currentStall} 
-                            setCurrentStall={this.setCurrentStall} 
+                            getStallInfo={this.getStallInfo} 
+                        />
+                    }
+                />
+                <Route 
+                    path={Routes.STALL_HOME} 
+                    exact
+                    component={() => 
+                        <StallHomeScreen 
+                            currentStall={this.state.currentStall} 
+                            getStallInfo={this.getStallInfo} 
                         />
                     }
                 />

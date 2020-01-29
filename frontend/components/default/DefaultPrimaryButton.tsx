@@ -10,6 +10,7 @@ type DefaultPrimaryButtonProps = {
   className?: string;
   style?: any;
   onClick: () => void;
+  disabled?: boolean;
 }
 
 const DefaultPrimaryButton = ({
@@ -17,12 +18,15 @@ const DefaultPrimaryButton = ({
   className,
   style,
   onClick,
+  disabled
 }: DefaultPrimaryButtonProps): JSX.Element => (
   <button
     type="button"
-    className={`defaultPrimaryButton ${className}`}
+    className={`defaultPrimaryButton ${className} ${disabled && 'defaultPrimaryInactiveButton'}`}
     style={style}
-    onMouseDown={() => { onClick(); }}
+    onMouseDown={() => {
+      if (!disabled) onClick();
+    }}
   >
     <DefaultText className="defaultPrimaryButtonText" text={text} />
   </button>
