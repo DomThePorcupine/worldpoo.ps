@@ -1,5 +1,7 @@
 export const Routes = {
     HOME: '/',
-    STALL_INFO: '/stall/info/:stallid',
-    STALL_HOME: '/stall/:stallid'
+    REGISTER: '/register',
+    STALL_INFO: '/stall/info',
+    STALL_HOME: '/stall',
+    STALL_WRITE: '/stall/write'
 };

@@ -1,0 +1,42 @@
+.registerScreenHeader {
+    text-align: center;
+    font-weight: bold;
+}
+
+.registerScreenContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.registerScreenUsernameContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.registerScreenUsernameInputContainer {
+    width: 65%;
+}
+
+.registerScreenInputHeader {
+    margin-top: 30px;
+}
+
+.registerScreenInput {
+    width: 100%;
+    height: 20px;
+}
+
+.registerScreenGenerateUsernameBtn {
+    margin-top: 60px;
+    width: 30%;
+}
+
+.registerScreenRegisterBtn {
+    margin-top: 40px;
+}

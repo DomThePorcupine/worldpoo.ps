@@ -1,5 +1,5 @@
 // === React Imports ===
-import React from 'react';
+import React, { Fragment } from 'react';
 
 // === Custom Imports ===
 import DefaultSecondaryButton from './DefaultSecondaryButton';
@@ -29,7 +29,7 @@ const DefaultTopBar = ({
       !leftButton && !rightButton ? (
         <DefaultText className="defaultTopBarTitle defaultTopBarSingleTitle" text={title || ''} />
       ) : (
-        <div>
+        <Fragment>
           <DefaultSecondaryButton
             text={leftButton ? leftButton.text : ''}
             onClick={() => leftButton && leftButton.onClick()}
@@ -43,7 +43,7 @@ const DefaultTopBar = ({
             className="defaultTopBarRightButton"
             disabled={rightButtonDisabled}
           />
-        </div>
+        </Fragment>
       )
     }
   </div>

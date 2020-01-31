@@ -1,10 +1,11 @@
 .defaultSecondaryButton {
     width: calc(100% - 150px);
     overflow: hidden;
-    height: 50px;
+    height: 60px;
     text-align: center;
     background-color: #E5E5E5;
     outline: none;
+    border: none;
 }
 
 .defaultSecondaryInactiveButton {

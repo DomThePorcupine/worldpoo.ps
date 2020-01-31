@@ -23,15 +23,15 @@ const DefaultTextInput = ({
   value,
   onValueChange,
 }: DefaultTextInputProps): JSX.Element => (
-  <div className={`defaultTextInput ${className}`} style={style}>
-    <input
-      value={value}
-      type={type || 'text'}
-      placeholder={placeholder}
-      spellcheck={spellCheck}
-      onChange={onValueChange || undefined}
-    />
-  </div>
+  <input
+    className={`defaultTextInput ${className}`}
+    style={style}
+    value={value}
+    type={type || 'text'}
+    placeholder={placeholder}
+    spellCheck={spellCheck}
+    onChange={onValueChange || undefined}
+  />
 );
 
 export default DefaultTextInput;

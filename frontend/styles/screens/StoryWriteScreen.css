@@ -1,0 +1,29 @@
+.storyWriteContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.storyWriteHeader {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.storyWriteTextArea {
+    height: 30vh;
+    margin: 0px auto;
+    margin-top: 40px;
+    width: 80%;
+    display: block;
+}
+
+.storyWriteSubmitBtn {
+    width: 80%;
+    margin: 0px auto;
+    display: block;
+    margin-top: 40px;
+}

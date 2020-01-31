@@ -6,11 +6,12 @@ import DefaultText from './DefaultText';
 import '../../styles/components/default/DefaultPrimaryButton.css';
 
 type DefaultPrimaryButtonProps = {
-  text: string;
+  text?: string;
   className?: string;
   style?: any;
   onClick: () => void;
   disabled?: boolean;
+  img?: any;
 }
 
 const DefaultPrimaryButton = ({
@@ -18,7 +19,8 @@ const DefaultPrimaryButton = ({
   className,
   style,
   onClick,
-  disabled
+  disabled,
+  img
 }: DefaultPrimaryButtonProps): JSX.Element => (
   <button
     type="button"
@@ -28,7 +30,13 @@ const DefaultPrimaryButton = ({
       if (!disabled) onClick();
     }}
   >
-    <DefaultText className="defaultPrimaryButtonText" text={text} />
+    {
+      text ? (
+        <DefaultText className="defaultPrimaryButtonText" text={text} />
+      ) : (
+        <img className="defaultPrimaryButtonImg" src={img} />
+      )
+    }
   </button>
 );
 

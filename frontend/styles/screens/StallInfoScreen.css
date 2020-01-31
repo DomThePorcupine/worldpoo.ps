@@ -1,5 +1,4 @@
 .stallInfoContainer {
-    width: 80%;
     margin: 0px auto;
     text-align: center;
 }
@@ -30,21 +29,19 @@
 }
 
 .stallInfoToilet {
-    margin-top: 80px;
+    margin-top: 40px;
     width: 40%;
 }
 
 .stallInfoReadText {
-    margin-top: 80px;
-}
-
-.stallInfoShareText {
     margin-top: 40px;
 }
 
+.stallInfoShareText {
+    margin-top: 20px;
+}
+
 .stallInfoActionBtn {
-    width: 80%;
-    position: absolute;
-    bottom: 100px;
-    left: 10%;
+    width: 100%;
+    margin-top: 40px;
 }

@@ -10,14 +10,15 @@ import DefaultPrimaryButton from '../components/default/DefaultPrimaryButton';
 import DefaultTopBar from '../components/default/DefaultTopBar';
 import RatingOptions from '../components/RatingOptions';
 import StallStoriesList from '../components/StallStoriesList';
-import { StallInfo, StallRating } from '../utils/Types';
+import { StallInfo, StallRating, User } from '../utils/Types';
 import poopImg from '../assets/crap.png';
+import { Routes } from '../utils/Routes';
 import '../styles/screens/StallHomeScreen.css';
 
 type StallHomeScreenProps = RouteComponentProps & {
     history: any;
     currentStall: StallInfo | undefined;
-    getStallInfo: (stallId: string) => void;
+    currentUser: User | undefined;
 };
 
 type StallHomeScreenState = {
@@ -40,15 +41,15 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
     }
 
     componentDidMount() {
-        // Get stall info from backend using API
-        if (!this.props.currentStall) {
-            const stallId = window.location.pathname.split('/').slice(-1)[0];
-            this.props.getStallInfo(stallId);
+        const stallId = window.location.pathname.split('/').slice(-1)[0];
+
+        // Check if user is logged in
+        if (!this.props.currentUser) {
+            this.props.history.replace(`${Routes.REGISTER}/${stallId}`);
         }
     }
 
     getAvgRating(ratings: Array<StallRating>): string {
-        console.log(ratings);
         const totalRatings = ratings.reduce((a: number, b: StallRating) => a + b.score, 0);
         return `${(totalRatings / ratings.length).toFixed(1)}`;
     }
@@ -113,7 +114,10 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
                     <DefaultPrimaryButton
                         className="stallHomeScreenWriteBtn"
                         text={"Write Story"}
-                        onClick={() => { this.props.history.push('/stall/write/test_stall') }} 
+                        onClick={() => { 
+                            const stallId = window.location.pathname.split('/').slice(-1)[0];
+                            this.props.history.push(`${Routes.STALL_WRITE}/${stallId}`)
+                        }} 
                     />
                     <StallStoriesList stories={currentStall.tales} />
                 </div>

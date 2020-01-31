@@ -23,15 +23,15 @@ const DefaultTextArea = ({
   rows,
   onValueChange,
 }: DefaultTextAreaProps): JSX.Element => (
-  <div className={`defaultTextArea ${className}`} style={style}>
-    <textarea
-      rows={rows || 10}
-      value={value}
-      placeholder={placeholder}
-      spellcheck={spellCheck}
-      onChange={(e: any) => { onValueChange(e); }}
-    />
-  </div>
+  <textarea
+    className={`defaultTextArea ${className}`} 
+    style={style}
+    rows={rows || 10}
+    value={value}
+    placeholder={placeholder}
+    spellCheck={spellCheck}
+    onChange={(e: any) => { onValueChange(e); }}
+  />
 );
 
 export default DefaultTextArea;

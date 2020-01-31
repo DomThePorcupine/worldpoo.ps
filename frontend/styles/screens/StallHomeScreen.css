@@ -4,10 +4,10 @@
 }
 
 .stallHomeScreenPoopImg {
-    width: 20%;
+    width: 70px;
     margin: 0px auto;
     display: block;
-    margin-top: 70px;
+    margin-top: 40px;
 }
 
 .stallHomeScreenRating {
@@ -19,15 +19,14 @@
 .stallHomeScreenRatingMsg {
     font-style: italic;
     text-align: center;
-    margin-top: 60px;
-    font-size: 50px;
+    margin-top: 30px;
 }
 
 .stallHomeScreenRatingContainer {
     margin: 0px auto;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .stallHomeScreenWriteBtn {
-    margin-top: 100px;
+    margin-top: 60px;
 }

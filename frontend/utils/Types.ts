@@ -19,3 +19,7 @@ export type StallInfo = {
     tales: Array<StallTale>;
     ratings: Array<StallRating>;
 }
+
+export type User = {
+    username: string;
+}
