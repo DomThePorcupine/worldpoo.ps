@@ -46,11 +46,11 @@ const router = new Router({
  */
 router.get('/:id', body(), auth(), async (ctx) => {
     const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
-        attributes: ['address', 'name'],
+        attributes: ['address', 'name', 'createdAt'],
         include: [{
             model: ctx.db.models.tale,
             as: 'tales',
-            attributes: ['taleText', 'username'],
+            attributes: ['taleText', 'username', 'id'],
         }, {
             model: ctx.db.models.rating,
             as: 'ratings',

@@ -25,7 +25,12 @@ app.use(routes.routes());
 
 app.use(serve('./pub'));
 
-module.exports = app.listen(PORT, '0.0.0.0', () => {
+db.on('ready', () => {
+    app.emit('ready');
+});
+
+app._server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server up and running on port: ${PORT}`);
 });
 
+module.exports = app;
