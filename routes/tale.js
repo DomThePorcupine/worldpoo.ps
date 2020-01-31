@@ -33,7 +33,7 @@ const router = new Router({
  */
 router.get('/new', auth(), async (ctx) => {
     const tales = await ctx.db.models.tale.findAll({
-        attributes: ['taleText', 'createdAt', 'id', 'username'],
+        attributes: ['currentScore', 'taleText', 'createdAt', 'id', 'username'],
         limit: 10,
         order: [['createdAt', 'DESC']],
     });
