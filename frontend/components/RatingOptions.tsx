@@ -1,5 +1,5 @@
 // -- Third party imports -- //
-import React, { Component } from 'react';
+import React from 'react';
 
 // -- Our imports -- //
 import DefaultText from './default/DefaultText';
@@ -7,9 +7,9 @@ import '../styles/components/RatingOptions.css';
 
 type RatingOptionsProps = {
     className?: string;
-    value: string;
-    ratings: Array<string>;
-    onValueChange: (newValue: string) => void;
+    value: number;
+    ratings: Array<number>;
+    onValueChange: (newValue: number) => void;
 };
 
 const RatingsOptions = ({ className, value, ratings, onValueChange }: RatingOptionsProps): JSX.Element => (
@@ -19,10 +19,10 @@ const RatingsOptions = ({ className, value, ratings, onValueChange }: RatingOpti
                 return (
                     <div 
                         key={`ratingCircle-${idx}`}
-                        className={`ratingCircle ${parseInt(r) <= parseInt(value) ? 'ratingCircleSelected' : ''}`} 
+                        className={`ratingCircle ${r <= value ? 'ratingCircleSelected' : ''}`} 
                         onMouseDown={() => { onValueChange(r); }}
                     >
-                        <DefaultText className={`ratingText ${parseInt(r) <= parseInt(value) ? 'ratingTextSelected' : ''}`} text={r} />
+                        <DefaultText className={`ratingText ${r <= value ? 'ratingTextSelected' : ''}`} text={`${r}`} />
                     </div>
                 )
             })

@@ -9,7 +9,8 @@ import DefaultText from '../components/default/DefaultText';
 import DefaultPrimaryButton from '../components/default/DefaultPrimaryButton';
 import DefaultTopBar from '../components/default/DefaultTopBar';
 import RatingOptions from '../components/RatingOptions';
-import StallStoriesList from '../components/StallStoriesList';
+import StallTalesList from '../components/StallTalesList';
+import Loading from '../components/Loading';
 import { StallInfo, StallRating, User } from '../utils/Types';
 import poopImg from '../assets/crap.png';
 import { Routes } from '../utils/Routes';
@@ -19,61 +20,56 @@ type StallHomeScreenProps = RouteComponentProps & {
     history: any;
     currentStall: StallInfo | undefined;
     currentUser: User | undefined;
+    onRatingChange: (rating: number) => void;
+    onTaleVote: (taleIndex: number, vote: boolean) => void;
+    getStallInfo: (stallId: number) => void;
 };
 
-type StallHomeScreenState = {
-    selectedRating: string;
-};
+type StallHomeScreenState = {};
 
-/**
- * The StallInfoScreen is loaded when a user scans a QR code!
- */
 class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenState> {
-    constructor(props: StallHomeScreenProps) {
-        super(props);
-        this.state = {
-            selectedRating: '',
-        }
 
-        this.getAvgRating = this.getAvgRating.bind(this);
-        this.getRatingsMsg = this.getRatingsMsg.bind(this);
-        this.onRatingChange = this.onRatingChange.bind(this);
-    }
-
+    /**
+     * In the case that the user logs in straight with the URL, we want to get the stall and login first.
+     */
     componentDidMount() {
+        const { history, currentStall, currentUser, getStallInfo } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
-        // Check if user is logged in
-        if (!this.props.currentUser) {
-            this.props.history.replace(`${Routes.REGISTER}/${stallId}`);
+        if (!currentStall) {
+            getStallInfo(stallId);
+        } else if (!currentUser) {
+            history.replace(`${Routes.REGISTER}/${stallId}`);
         }
     }
 
+    /**
+     * Gets average rating of stall
+     * @param ratings - array of all ratings of this stall
+     */
     getAvgRating(ratings: Array<StallRating>): string {
         const totalRatings = ratings.reduce((a: number, b: StallRating) => a + b.score, 0);
         return `${(totalRatings / ratings.length).toFixed(1)}`;
     }
 
-    getRatingsMsg(value: string): string {
-        if (value === '1') {
+    /**
+     * Gets different message based on rating
+     * @param rating - rating
+     */
+    getRatingsMsg(rating: number): string {
+        if (rating === 1) {
             return "That's shit!";
-        } else if (value === '2') {
+        } else if (rating === 2) {
             return "That's terrible!";
-        } else if (value === '3') {
+        } else if (rating === 3) {
             return "Not too bad.";
-        } else if (value === '4') {
+        } else if (rating === 4) {
             return "That's good shit!";
-        } else if (value === '5') {
+        } else if (rating === 5) {
             return "Wow, That's amazing!"
         }
 
         return 'How is this stall?';
-    }
-
-    onRatingChange(newValue: string) {
-        this.setState({ 
-            selectedRating: newValue,
-        })
     }
 
     /**
@@ -82,13 +78,12 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
      * @return {JSX.Element}
      */
     render (): JSX.Element {
-        if (!this.props.currentStall) {
-            // TODO: Make Loading UI
-            return <p>Loading...</p>;
+        const { currentStall, onRatingChange, onTaleVote } = this.props;
+
+        if (!currentStall) {
+            return <Loading text="Loading stall..." />;
         }
 
-        const { currentStall } = this.props;
-        const { selectedRating } = this.state;
         return (
             <div>
                 <DefaultTopBar title={currentStall.name} />
@@ -96,30 +91,29 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
                     <img className="stallHomeScreenPoopImg" src={poopImg} />
                     <DefaultHeader 
                         className="stallHomeScreenRating" 
-                        text={this.getAvgRating(selectedRating 
-                            ? [...currentStall.ratings, { score: parseInt(selectedRating) }]
+                        text={this.getAvgRating(currentStall.myRating 
+                            ? [...currentStall.ratings, { score: currentStall.myRating  }]
                             : currentStall.ratings)
                         }
                     />
                     <DefaultText
                         className="stallHomeScreenRatingMsg"
-                        text={this.getRatingsMsg(selectedRating)} 
+                        text={this.getRatingsMsg(currentStall.myRating)} 
                     />
                     <RatingOptions 
                         className="stallHomeScreenRatingContainer"
-                        value={selectedRating}
-                        onValueChange={this.onRatingChange} 
-                        ratings={['1','2','3','4','5']}
+                        value={currentStall.myRating}
+                        onValueChange={onRatingChange} 
+                        ratings={[1,2,3,4,5]}
                     />
                     <DefaultPrimaryButton
                         className="stallHomeScreenWriteBtn"
                         text={"Write Story"}
                         onClick={() => { 
-                            const stallId = window.location.pathname.split('/').slice(-1)[0];
-                            this.props.history.push(`${Routes.STALL_WRITE}/${stallId}`)
+                            this.props.history.push(`${Routes.STALL_WRITE}/${currentStall.stallId}`)
                         }} 
                     />
-                    <StallStoriesList stories={currentStall.tales} />
+                    <StallTalesList tales={currentStall.tales} onTaleVote={onTaleVote} />
                 </div>
             </div>
         );

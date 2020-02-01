@@ -5,11 +5,18 @@
     background-color: #E5E5E5;
     border: none;
     outline: none;
+    border-radius: 5px;
 }
 
 .defaultPrimaryInactiveButton {
     opacity: 30%;
+    background-color: #E5E5E549;
 }
+
+.defaultPrimaryInactiveText {
+    color: #00000049;
+}
+
 .defaultPrimaryButtonImg {
-    width: 30%;
+    width: 40%;
 }

@@ -14,12 +14,13 @@
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
+    font-size: 25px;
 }
 
 .stallHomeScreenRatingMsg {
-    font-style: italic;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 10px;
+    font-size: 20px;
 }
 
 .stallHomeScreenRatingContainer {
@@ -28,5 +29,5 @@
 }
 
 .stallHomeScreenWriteBtn {
-    margin-top: 60px;
+    margin-top: 40px;
 }

@@ -1,4 +1,8 @@
-p {
+html {
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
+}
+
+p, input, textarea {
     font-family: 'Quicksand', sans-serif;
 }
 

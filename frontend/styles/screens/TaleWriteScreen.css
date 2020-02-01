@@ -1,4 +1,4 @@
-.storyWriteContainer {
+.taleWriteContainer {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -8,12 +8,12 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
-.storyWriteHeader {
+.taleWriteHeader {
     text-align: center;
     margin-top: 50px;
 }
 
-.storyWriteTextArea {
+.taleWriteTextArea {
     height: 30vh;
     margin: 0px auto;
     margin-top: 40px;
@@ -21,7 +21,7 @@
     display: block;
 }
 
-.storyWriteSubmitBtn {
+.taleWriteSubmitBtn {
     width: 80%;
     margin: 0px auto;
     display: block;

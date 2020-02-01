@@ -1,0 +1,24 @@
+.notFoundContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.notFoundToilet {
+    width: 40%;
+    margin: 0px auto;
+    display: block;
+}
+
+.notFoundText {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.notFoundHomeBtn {
+    margin-top: 40px;
+}

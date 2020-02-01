@@ -22,10 +22,8 @@
 }
 
 .stallInfoScreenStallName {
-    display: inline-block;
     font-weight: bold;
     color: #184AFC;
-    margin-left: 15px;
 }
 
 .stallInfoToilet {

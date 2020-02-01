@@ -21,6 +21,8 @@ type RegisterScreenProps = RouteComponentProps & {
 type RegisterScreenState = {
     username: string;
     password: string;
+    error: string;
+    registerState: boolean;
 }
 
 class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState> {
@@ -28,13 +30,17 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            error: '',
+            registerState: true
         }
 
         this.onUsernameChange = this.onUsernameChange.bind(this);
         this.onPasswordChange = this.onPasswordChange.bind(this);
         this.onGenerateUsername = this.onGenerateUsername.bind(this);
         this.onRegisterClick = this.onRegisterClick.bind(this);
+        this.toggleSignIn = this.toggleSignIn.bind(this);
+        this.onLoginClick = this.onLoginClick.bind(this);
     }
 
     onUsernameChange(e: any): void {
@@ -54,6 +60,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
         const { setCurrentUser, history } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
+        // TODO: replace with API call
         /*
         Api.registerUser(username, password)
             .then((res) => {
@@ -62,7 +69,35 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
                 history.replace(`${Routes.STALL_HOME}/${stallId}`);
             })
             .catch((err) => {
+                this.setState({ error: 'Username already exists.' });
+            });
+        */
 
+        const newUser: User = { username };
+        setCurrentUser(newUser);
+        this.props.history.replace(`${Routes.STALL_HOME}/${stallId}`);
+    }
+
+    toggleSignIn(): void {
+        const { registerState } = this.state;
+        this.setState({ registerState: !registerState, error: '' });
+    }
+
+    onLoginClick(): void {
+        const { username, password } = this.state;
+        const { setCurrentUser, history } = this.props;
+        const stallId = window.location.pathname.split('/').slice(-1)[0];
+
+        // TODO: replace with API call
+        /*
+        Api.loginUser(username, password)
+            .then((res) => {
+                const newUser: User = { username };
+                setCurrentUser(newUser);
+                history.replace(`${Routes.STALL_HOME}/${stallId}`);
+            })
+            .catch((err) => {
+                this.setState({ error: 'Invalid username or password.' });
             });
         */
 
@@ -72,20 +107,26 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
     }
 
     render() {
-        const { username, password } = this.state;
+        const { username, password, error, registerState } = this.state;
         return (
             <div className="registerScreenContainer">
                 <DefaultHeader className="registerScreenHeader" text={'Welcome!'} />
                 <div className="registerScreenUsernameContainer">
-                    <div className="registerScreenUsernameInputContainer">
+                    <div className={registerState ? 'registerScreenUsernameRegisterInputContainer' : 'registerScreenUsernameLoginInputContainer'}>
                         <DefaultText className="registerScreenInputHeader" text='Username' />
                         <DefaultTextInput className="registerScreenInput" value={username} onValueChange={this.onUsernameChange} />
                     </div>
-                    <DefaultPrimaryButton className="registerScreenGenerateUsernameBtn" onClick={this.onGenerateUsername} img={randomImg} />
+                    {registerState && <DefaultPrimaryButton className="registerScreenGenerateUsernameBtn" onClick={this.onGenerateUsername} img={randomImg} />}
                 </div>
+                { error && <DefaultText className="registerScreenError" text={error} /> }
                 <DefaultText className="registerScreenInputHeader" text='Password' />
                 <DefaultTextInput className="registerScreenInput" type={'password'} value={password} onValueChange={this.onPasswordChange} />
-                <DefaultPrimaryButton className="registerScreenRegisterBtn" text={'Register'} onClick={this.onRegisterClick} disabled={!username || !password} />
+                <DefaultText className="registerScreenInputLogin" text='Login instead?' onClick={this.toggleSignIn} />
+                {registerState ? (
+                    <DefaultPrimaryButton className="registerScreenRegisterBtn" text={'Register'} onClick={this.onRegisterClick} disabled={!username || !password} />
+                ) : (
+                    <DefaultPrimaryButton className="registerScreenRegisterBtn" text={'Login'} onClick={this.onLoginClick} disabled={!username || !password} />
+                )}
             </div>
         )
     }

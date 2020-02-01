@@ -19,8 +19,12 @@
     justify-content: space-between;
 }
 
-.registerScreenUsernameInputContainer {
-    width: 65%;
+.registerScreenUsernameRegisterInputContainer {
+    width: 75%;
+}
+
+.registerScreenUsernameLoginInputContainer {
+    width: 100%;
 }
 
 .registerScreenInputHeader {
@@ -33,10 +37,21 @@
 }
 
 .registerScreenGenerateUsernameBtn {
-    margin-top: 60px;
-    width: 30%;
+    margin-top: 50px;
+    height: 40px;
+    width: 20%;
 }
 
 .registerScreenRegisterBtn {
+    margin-top: 40px;
+}
+
+.registerScreenError {
+    color: #eb2f39;
+}
+
+.registerScreenInputLogin {
+    text-align: center;
+    color: #184AFC;
     margin-top: 40px;
 }

@@ -5,8 +5,11 @@ export type TopNavButton = {
   }
 
 export type StallTale = {
+    taleId: number;
+    currentScore: number;
     taleText: string;
     username: string;
+    voted: boolean;
 }
 
 export type StallRating = {
@@ -14,8 +17,10 @@ export type StallRating = {
 }
 
 export type StallInfo = {
+    stallId: number;
     address: string;
     name: string;
+    myRating: number | undefined;
     tales: Array<StallTale>;
     ratings: Array<StallRating>;
 }

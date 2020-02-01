@@ -1,0 +1,38 @@
+.stallTaleContainer {
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #ebeaea;
+}
+
+.stallTaleUsername {
+    font-weight: bold;
+}
+
+.stallTaleText {
+    clear: both;
+    text-align: justify;
+}
+
+.stallTaleReadMore {
+    color: #184AFC;
+    margin-top: 5px;
+}
+
+.stallTaleTextContainer {
+    width: 100%;
+}
+
+.stallTaleVoteContainer {
+    margin-top: 20px;
+    display: flex;
+}
+
+.stallTaleVoteButton {
+    width: 25px;
+    height: 25px;
+    padding-right: 10px;
+}
+
+.stallTaleVoteText {
+    align-self: flex-end;
+}

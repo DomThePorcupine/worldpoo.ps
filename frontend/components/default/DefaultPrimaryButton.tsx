@@ -32,7 +32,7 @@ const DefaultPrimaryButton = ({
   >
     {
       text ? (
-        <DefaultText className="defaultPrimaryButtonText" text={text} />
+        <DefaultText className={`defaultPrimaryButtonText ${disabled && 'defaultPrimaryInactiveText'}`} text={text} />
       ) : (
         <img className="defaultPrimaryButtonImg" src={img} />
       )

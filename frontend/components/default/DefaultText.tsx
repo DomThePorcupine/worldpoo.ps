@@ -8,10 +8,11 @@ type DefaultTextProps = {
   text: string;
   className?: string;
   style?: any;
+  onClick?: () => void;
 }
 
-const DefaultText = ({ text, className, style }: DefaultTextProps): JSX.Element => (
-  <p className={`defaultText ${className}`} style={style}>
+const DefaultText = ({ text, className, style, onClick }: DefaultTextProps): JSX.Element => (
+  <p className={`defaultText ${className}`} style={style} onClick={() => { onClick && onClick(); }}>
     {text}
   </p>
 );
