@@ -9,7 +9,7 @@ class Api {
 
     constructor() {
         // Use location.host for testing
-        this.endpoint = (location.host.indexOf('xyz') >= 0) ? 'https://worldpoops.xyz/v1' : 'http://0.0.0.0:5000/v1';
+        this.endpoint = (location.host.indexOf('xyz') >= 0) ? 'https://api.worldpoops.xyz/v1' : 'http://0.0.0.0:5000/v1';
 
         this.transport = axios.create({
             withCredentials: true, // Needed for the token
