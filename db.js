@@ -8,6 +8,7 @@ const user = require('./models/user');
 const tale = require('./models/tale');
 const stall = require('./models/stall');
 const rating = require('./models/rating');
+const vote = require('./models/vote');
 
 
 // -- Constants -- //
@@ -29,7 +30,7 @@ module.exports = class Database extends EventEmitter {
         this.models = {};
 
         this.sequelize.authenticate()
-            .then(() => {
+            .then(async () => {
                 console.log('Connected to the db!');
 
                 // Set up the required models
@@ -37,6 +38,7 @@ module.exports = class Database extends EventEmitter {
                 this.models.tale = tale(this.sequelize, Sequelize.DataTypes);
                 this.models.rating = rating(this.sequelize, Sequelize.DataTypes);
                 this.models.stall = stall(this.sequelize, Sequelize.DataTypes);
+                this.models.vote = vote(this.sequelize, Sequelize.DataTypes);
 
 
                 // Set up the associations
@@ -44,10 +46,9 @@ module.exports = class Database extends EventEmitter {
                 this.models.user.associate({ Tale: this.models.tale, Rating: this.models.rating });
                 this.models.tale.associate({ User: this.models.user, Stall: this.models.stall });
                 this.models.stall.associate({ Tale: this.models.tale, Rating: this.models.rating });
+                this.models.vote.associate({ User: this.models.user, Tale: this.models.tale });
 
-                // For development purposes leave this on. Eventually should create
-                // migrations
-                this.sequelize.sync({ force }).then(async () => {
+                this.sequelize.sync().then(async () => {
                     // Create default users
                     const admin = await this.models.user.findAll({ where: { username: DEFAULT_USERNAME } });
 
@@ -56,9 +57,10 @@ module.exports = class Database extends EventEmitter {
                             username: DEFAULT_USERNAME,
                             password: bcrypt.hashSync(DEFAULT_PASSWORD, 10),
                             vip: true,
+                            admin: true,
                         });
                     }
-
+                    console.log('ready');
                     this.emit('ready'); // Let everything know we are good to go
                 });
             }).catch((err) => {

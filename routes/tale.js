@@ -10,6 +10,97 @@ const router = new Router({
     prefix: '/tale',
 });
 
+
+/**
+ * @api {get} api/v1/tale/new Get a list of the most recent tales
+ * @apiName GetNewTales
+ * @apiGroup Tale
+ *
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "response": "success"
+ *     }
+ *
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "response": "tale not found"
+ *     }
+ *
+ */
+router.get('/new', auth(), async (ctx) => {
+    const tales = await ctx.db.models.tale.findAll({
+        attributes: ['currentScore', 'taleText', 'createdAt', 'id', 'username'],
+        limit: 10,
+        order: [['createdAt', 'DESC']],
+    });
+
+    ctx.body = {
+        tales,
+    };
+
+    ctx.status = 200;
+    return;
+});
+
+/**
+ * @api {get} api/v1/tale/:id Get info on a tale
+ * @apiName GetTale
+ * @apiGroup Tale
+ *
+ * @apiParam {number} id
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "currentScore": 1234,
+ *       "taleText": "An example tale",
+ *       "stalls": [{
+ *          "address": "1306 E Carson St, Pittsburgh, PA 15203",
+ *          "name": "Smiling moose"
+ *       }],
+ *     }
+ *
+ * @apiError TaleDoesNotExist A tale with that id does not exist
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "response": "tale not found"
+ *     }
+ *
+ */
+router.get('/:id', auth(), async (ctx) => {
+    const tale = await ctx.db.models.tale.findByPk(ctx.params.id, {
+        attributes: ['currentScore', 'taleText', 'createdAt'],
+        include: [{
+            model: ctx.db.models.stall,
+            as: 'stall',
+            attributes: ['address', 'name'],
+        }, {
+            model: ctx.db.models.user,
+            as: 'user',
+            attributes: ['username'],
+        }],
+    });
+
+    // If the tale doesn't exist give a 404
+    if (!tale) {
+        ctx.body = {
+            response: 'tale not found',
+        };
+
+        ctx.status = 404;
+        return;
+    }
+
+    ctx.body = tale;
+    return;
+});
+
 /**
  * @api {post} api/v1/tale Post a tale
  * @apiName CreateTale
@@ -66,13 +157,12 @@ router.post('/', body(), auth(), params(['taleText', 'stallId']), async (ctx) =>
         return;
     }
 
-    const nTale = await ctx.db.models.tale.create({
+    await ctx.db.models.tale.create({
         taleText: body.taleText,
         username: ctx.user.username,
+        UserId: ctx.user.id,
+        StallId: stall.id,
     });
-
-    await ctx.user.addTale(nTale);
-    await stall.addTale(nTale);
 
     ctx.body = {
         response: 'success',

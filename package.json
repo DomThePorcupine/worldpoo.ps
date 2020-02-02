@@ -8,8 +8,10 @@
     "dev:backend": "nodemon --ignore './dist/' --ignore './frontend/' index.js",
     "dev:frontend": "parcel frontend/index.html",
     "build:frontend": "parcel build frontend/index.html",
+    "rollback": "sequelize db:drop --url $DATABASE_URL",
+    "migrate": "sequelize db:migrate --url $DATABASE_URL",
     "lint": "eslint .",
-    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs && npm run build:frontend",
+    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs && npm run migrate && echo \"Migration done.\"",
     "start": "node index.js"
   },
   "repository": {
@@ -23,6 +25,7 @@
   },
   "homepage": "https://github.com/DomThePorcupine/worldpoo.ps#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "bcrypt": "^3.0.7",
     "cookie-parser": "^1.4.4",
     "jsonwebtoken": "^8.5.1",
