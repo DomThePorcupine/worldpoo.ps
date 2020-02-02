@@ -73,6 +73,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
             });
         */
 
+        // TODO: remove after Api call
         const newUser: User = { username };
         setCurrentUser(newUser);
         this.props.history.replace(`${Routes.STALL_HOME}/${stallId}`);
@@ -101,6 +102,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
             });
         */
 
+        // TODO: remove after Api call
         const newUser: User = { username };
         setCurrentUser(newUser);
         this.props.history.replace(`${Routes.STALL_HOME}/${stallId}`);

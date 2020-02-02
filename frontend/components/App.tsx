@@ -70,17 +70,20 @@ class App extends Component<AppProps, AppState> {
             });
         */
 
+        // TODO: remove after Api call
         let stallInfo: StallInfo = {
             stallId: 1,
             address: '1234 End of World Suite 4G',
             name: 'Smelly Stall #120',
-            myRating: 4,
+            myRating: 4, // TODO: added new field
             tales: [
+                // TODO: added new fields: taleId, currentScore, voted
                 { taleId: 1, taleText: 'Damn, that was a rough one.', username: 'Adnan', currentScore: 13, voted: true }, 
                 { taleId: 2, taleText: 'Testing how long text can be without preview. How about this much?', username: 'Dom', currentScore: 145, voted: false }, 
                 { taleId: 3, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Taylor', currentScore: 1323, voted: false }, 
                 { taleId: 4, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Andres', currentScore: 5, voted: true }, 
             ],
+            // TODO: Do we want just a average rating here?
             ratings: [
                 { score: 3 },
                 { score: 5 },
@@ -118,6 +121,7 @@ class App extends Component<AppProps, AppState> {
             });
         */
 
+        // TODO: remove after Api call
         const newStallInfo = this.state.currentStall;
         newStallInfo.myRating = rating;
         this.setState({ currentStall: newStallInfo });
@@ -144,6 +148,7 @@ class App extends Component<AppProps, AppState> {
             });
         */
 
+        // TODO: remove after Api call
         const newStallInfo = this.state.currentStall;
         newStallInfo.tales[taleIndex].currentScore += vote ? 1 : -1;
         newStallInfo.tales[taleIndex].voted = vote;
@@ -177,6 +182,7 @@ class App extends Component<AppProps, AppState> {
             });
         */
 
+        // TODO: remove after Api call
         const { currentStall, currentUser } = this.state;
         const newStallInfo = currentStall;
         const newLocalTale: StallTale = { taleId: 5, taleText, username: currentUser.username, currentScore: 0, voted: false };
