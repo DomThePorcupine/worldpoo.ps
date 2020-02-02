@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // -- Our imports -- //
 import DefaultHeader from '../components/default/DefaultHeader';
@@ -23,6 +24,7 @@ type StallHomeScreenProps = RouteComponentProps & {
     onRatingChange: (rating: number) => void;
     onTaleVote: (taleIndex: number, vote: boolean) => void;
     getStallInfo: (stallId: number) => void;
+    setCurrentUser: (user: User) => void;
 };
 
 type StallHomeScreenState = {};
@@ -33,16 +35,17 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
      * In the case that the user logs in straight with the URL, we want to get the stall and login first.
      */
     componentDidMount() {
-        const { history, currentStall, currentUser, getStallInfo } = this.props;
+        const { currentStall, currentUser, getStallInfo, setCurrentUser } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
         if (!currentStall) {
             console.log('Getting stall info')
             getStallInfo(stallId);
         } else if (!currentUser) {
-            console.log(currentUser)
-            console.log('Also this'); // How tf is this also being called?!
-            // history.replace(`${Routes.REGISTER}/${stallId}`);
+            // TODO: fix cookie
+            const userToken = Cookies.get('token');
+            console.log(userToken);
+            // setCurrentUser(userToken.username);
         }
     }
 
@@ -51,6 +54,10 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
      * @param ratings - array of all ratings of this stall
      */
     getAvgRating(ratings: Array<StallRating>): string {
+        if (ratings.length <= 0) {
+            return 'Be the first one to rate!'
+        }
+
         const totalRatings = ratings.reduce((a: number, b: StallRating) => a + b.score, 0);
         return `${(totalRatings / ratings.length).toFixed(1)}`;
     }
@@ -113,10 +120,16 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
                         className="stallHomeScreenWriteBtn"
                         text={"Write Story"}
                         onClick={() => {
-                            this.props.history.push(`${Routes.STALL_WRITE}/${currentStall.stallId}`)
+                            this.props.history.push(`${Routes.STALL_WRITE}/${currentStall.id}`)
                         }}
                     />
-                    <StallTalesList tales={currentStall.tales} onTaleVote={onTaleVote} />
+                    {
+                        currentStall.tales.length <= 0 ? (
+                            <DefaultText className="stallHomeNoTalesText" text="No tales to display yet!" />
+                        ) : (
+                            <StallTalesList tales={currentStall.tales} onTaleVote={onTaleVote} />
+                        )
+                    }
                 </div>
             </div>
         );

@@ -13,7 +13,7 @@ class HomeScreen extends Component {
         Api.getRandomStall()
             .then((res) => {
                 // this.getStallInfo(res.data.id); // Get some info for the stall
-                window.location.replace(Routes.STALL_HOME + '/' + res.data.id);
+                window.location.replace(Routes.STALL_INFO + '/' + res.data.id);
             })
             .catch((err) => {
                 console.log('couldnt get random stall')

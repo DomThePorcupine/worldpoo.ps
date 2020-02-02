@@ -39,16 +39,11 @@ class App extends Component<AppProps, AppState> {
         this.onTaleSubmit = this.onTaleSubmit.bind(this);
     }
 
-    componentDidMount() {
-    }
-
     /**
      * Gets stall info
      * @param stallId - stall id to send to API
      */
     getStallInfo(stallId: number) {
-        // TODO: change to API call
-
         Api.getStallInfo(stallId)
             .then((res) => {
                 let stallInfo = res.data;
@@ -97,8 +92,6 @@ class App extends Component<AppProps, AppState> {
      * @param rating - new stall rating
      */
     onRatingChange(rating: number): void {
-        // TODO: change to Api call
-
         const { currentStall } = this.state;
         Api.rateStall(currentStall.id, rating)
             .then((res) => {
@@ -109,12 +102,6 @@ class App extends Component<AppProps, AppState> {
             .catch((err) => {
                 console.log('Could not rate stall');
             });
-
-
-        // TODO: remove after Api call
-        // const newStallInfo = this.state.currentStall;
-        // newStallInfo.myRating = rating;
-        // this.setState({ currentStall: newStallInfo });
     }
 
     /**
@@ -123,8 +110,6 @@ class App extends Component<AppProps, AppState> {
      * @param vote - true if upvote, false if downvote
      */
     onTaleVote(taleIndex: number, vote: boolean) {
-        // TODO: change to Api call
-
         const { currentStall } = this.state;
         Api.voteTale(currentStall.tales[taleIndex].taleId, vote)
             .then((res) => {
@@ -136,13 +121,6 @@ class App extends Component<AppProps, AppState> {
             .catch((err) => {
                 console.log('Could not vote on tale');
             });
-
-
-        // TODO: remove after Api call
-        // const newStallInfo = this.state.currentStall;
-        // newStallInfo.tales[taleIndex].currentScore += vote ? 1 : -1;
-        // newStallInfo.tales[taleIndex].voted = vote;
-        // this.setState({ currentStall: newStallInfo });
     }
 
     /**
@@ -151,9 +129,7 @@ class App extends Component<AppProps, AppState> {
      * @param stallId - stall id to post tale to
      */
     onTaleSubmit(taleText: string, stallId: number) {
-        // TODO: change to Api call
-
-        const { currentStall } = this.state;
+        const { currentStall, currentUser } = this.state;
         Api.submitTale(taleText, stallId)
             .then((res) => {
                 const newStallInfo = currentStall;
@@ -168,16 +144,9 @@ class App extends Component<AppProps, AppState> {
                 this.setState({ currentStall: newStallInfo });
             })
             .catch((err) => {
+                console.log(err);
                 console.log('Could not submit tale');
             });
-
-
-        // TODO: remove after Api call
-        // const { currentStall, currentUser } = this.state;
-        // const newStallInfo = currentStall;
-        // const newLocalTale: StallTale = { taleId: 5, taleText, username: currentUser.username, currentScore: 0, voted: false };
-        // newStallInfo.tales.unshift(newLocalTale);
-        // this.setState({ currentStall: newStallInfo });
     }
 
     /**
@@ -194,17 +163,38 @@ class App extends Component<AppProps, AppState> {
                     <Route
                         path={`${Routes.STALL_INFO}/:stallid`}
                         exact
-                        component={() => <StallInfoScreen currentStall={currentStall} getStallInfo={this.getStallInfo} />}
+                        component={() => 
+                            <StallInfoScreen
+                                currentStall={currentStall}
+                                getStallInfo={this.getStallInfo}
+                            />
+                        }
                     />
                     <Route
                         path={`${Routes.STALL_HOME}/:stallid`}
                         exact
-                        component={() => <StallHomeScreen currentStall={currentStall} currentUser={currentUser} getStallInfo={this.getStallInfo} onRatingChange={this.onRatingChange} onTaleVote={this.onTaleVote} />}
+                        component={() => 
+                            <StallHomeScreen
+                                currentStall={currentStall}
+                                currentUser={currentUser}
+                                getStallInfo={this.getStallInfo}
+                                onRatingChange={this.onRatingChange}
+                                onTaleVote={this.onTaleVote}
+                                setCurrentUser={this.setCurrentUser}
+                            />
+                        }
                     />
                     <Route
                         path={`${Routes.STALL_WRITE}/:stallid`}
                         exact
-                        component={() => <TaleWriteScreen currentStall={currentStall} currentUser={currentUser} getStallInfo={this.getStallInfo} onTaleSubmit={this.onTaleSubmit} />}
+                        component={() => 
+                            <TaleWriteScreen
+                                currentStall={currentStall}
+                                currentUser={currentUser}
+                                getStallInfo={this.getStallInfo}
+                                onTaleSubmit={this.onTaleSubmit}
+                            />
+                        }
                     />
                     <Route path={Routes.REGISTER} component={() => <RegisterScreen setCurrentUser={this.setCurrentUser} />} />
                     <Route path={Routes.STALL_NOT_FOUND} exact component={StallNotFoundScreen} />

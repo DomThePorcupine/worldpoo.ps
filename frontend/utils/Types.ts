@@ -17,7 +17,7 @@ export type StallRating = {
 }
 
 export type StallInfo = {
-    stallId: number;
+    id: number;
     address: string;
     name: string;
     myRating: number | undefined;

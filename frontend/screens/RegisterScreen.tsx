@@ -60,13 +60,8 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
         const { setCurrentUser, history } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
-        // TODO: replace with API call
-
         Api.registerUser(username, password)
             .then((res) => {
-                // const newUser: User = { username };
-                // setCurrentUser(newUser);
-                // history.replace(`${Routes.STALL_HOME}/${stallId}`);
                 Api.loginUser(username, password)
                     .then((res) => {
                         const newUser: User = { username };
@@ -80,12 +75,6 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
             .catch((err) => {
                 this.setState({ error: 'Username already exists.' });
             });
-
-
-        // TODO: remove after Api call
-        // const newUser: User = { username };
-        // setCurrentUser(newUser);
-        // this.props.history.replace(`${Routes.STALL_HOME}/${stallId}`);
     }
 
     toggleSignIn(): void {
@@ -98,8 +87,6 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
         const { setCurrentUser, history } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
-        // TODO: replace with API call
-
         Api.loginUser(username, password)
             .then((res) => {
                 const newUser: User = { username };
@@ -109,12 +96,6 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
             .catch((err) => {
                 this.setState({ error: 'Invalid username or password.' });
             });
-
-
-        // TODO: remove after Api call
-        // const newUser: User = { username };
-        // setCurrentUser(newUser);
-        // this.props.history.replace(`${Routes.STALL_HOME}/${stallId}`);
     }
 
     render() {
