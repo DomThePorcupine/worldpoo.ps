@@ -64,6 +64,15 @@ router.post('/register', body(), params(['username', 'password']), async (ctx) =
     return;
 });
 
+router.get('/whois', auth(), async (ctx) => {
+
+    ctx.body = {
+        username: ctx.user.username,
+    };
+
+    return;
+});
+
 
 /**
  * @api {put} api/v1/user/ Update a user's info
