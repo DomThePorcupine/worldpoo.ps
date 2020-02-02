@@ -58,7 +58,7 @@ class App extends Component<AppProps, AppState> {
      */
     getStallInfo(stallId: number) {
         // TODO: change to API call
-        /*
+
         Api.getStallInfo(stallId)
             .then((res) => {
                 let stallInfo = res.data;
@@ -68,30 +68,30 @@ class App extends Component<AppProps, AppState> {
             .catch((err) => {
                 window.location.replace(Routes.STALL_NOT_FOUND);
             });
-        */
+
 
         // TODO: remove after Api call
-        let stallInfo: StallInfo = {
-            stallId: 1,
-            address: '1234 End of World Suite 4G',
-            name: 'Smelly Stall #120',
-            myRating: 4, // TODO: added new field
-            tales: [
-                // TODO: added new fields: taleId, currentScore, voted
-                { taleId: 1, taleText: 'Damn, that was a rough one.', username: 'Adnan', currentScore: 13, voted: true }, 
-                { taleId: 2, taleText: 'Testing how long text can be without preview. How about this much?', username: 'Dom', currentScore: 145, voted: false }, 
-                { taleId: 3, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Taylor', currentScore: 1323, voted: false }, 
-                { taleId: 4, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Andres', currentScore: 5, voted: true }, 
-            ],
-            // TODO: Do we want just a average rating here?
-            ratings: [
-                { score: 3 },
-                { score: 5 },
-                { score: 4 },
-            ],
-        }
-        
-        this.setState({ currentStall: stallInfo });
+        // let stallInfo: StallInfo = {
+        //     stallId: 1,
+        //     address: '1234 End of World Suite 4G',
+        //     name: 'Smelly Stall #120',
+        //     myRating: 4, // TODO: added new field
+        //     tales: [
+        //         // TODO: added new fields: taleId, currentScore, voted
+        //         { taleId: 1, taleText: 'Damn, that was a rough one.', username: 'Adnan', currentScore: 13, voted: true }, 
+        //         { taleId: 2, taleText: 'Testing how long text can be without preview. How about this much?', username: 'Dom', currentScore: 145, voted: false }, 
+        //         { taleId: 3, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Taylor', currentScore: 1323, voted: false }, 
+        //         { taleId: 4, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Andres', currentScore: 5, voted: true }, 
+        //     ],
+        //     // TODO: Do we want just a average rating here?
+        //     ratings: [
+        //         { score: 3 },
+        //         { score: 5 },
+        //         { score: 4 },
+        //     ],
+        // }
+
+        // this.setState({ currentStall: stallInfo });
     }
 
     /**
@@ -108,7 +108,7 @@ class App extends Component<AppProps, AppState> {
      */
     onRatingChange(rating: number): void {
         // TODO: change to Api call
-        /*
+
         const { currentStall } = this.state;
         Api.rateStall(currentStall.id, rating)
             .then((res) => {
@@ -119,12 +119,12 @@ class App extends Component<AppProps, AppState> {
             .catch((err) => {
                 console.log('Could not rate stall');
             });
-        */
+
 
         // TODO: remove after Api call
-        const newStallInfo = this.state.currentStall;
-        newStallInfo.myRating = rating;
-        this.setState({ currentStall: newStallInfo });
+        // const newStallInfo = this.state.currentStall;
+        // newStallInfo.myRating = rating;
+        // this.setState({ currentStall: newStallInfo });
     }
 
     /**
@@ -134,7 +134,7 @@ class App extends Component<AppProps, AppState> {
      */
     onTaleVote(taleIndex: number, vote: boolean) {
         // TODO: change to Api call
-        /*
+
         const { currentStall } = this.state;
         Api.voteTale(currentStall.tales[taleIndex].taleId, vote)
             .then((res) => {
@@ -146,13 +146,13 @@ class App extends Component<AppProps, AppState> {
             .catch((err) => {
                 console.log('Could not vote on tale');
             });
-        */
+
 
         // TODO: remove after Api call
-        const newStallInfo = this.state.currentStall;
-        newStallInfo.tales[taleIndex].currentScore += vote ? 1 : -1;
-        newStallInfo.tales[taleIndex].voted = vote;
-        this.setState({ currentStall: newStallInfo });
+        // const newStallInfo = this.state.currentStall;
+        // newStallInfo.tales[taleIndex].currentScore += vote ? 1 : -1;
+        // newStallInfo.tales[taleIndex].voted = vote;
+        // this.setState({ currentStall: newStallInfo });
     }
 
     /**
@@ -162,14 +162,14 @@ class App extends Component<AppProps, AppState> {
      */
     onTaleSubmit(taleText: string, stallId: number) {
         // TODO: change to Api call
-        /*
+
         const { currentStall } = this.state;
         Api.submitTale(taleText, stallId)
             .then((res) => {
                 const newStallInfo = currentStall;
-                const newLocalTale: StallTale = { 
+                const newLocalTale: StallTale = {
                     taleId: res.taleId,
-                    taleText, 
+                    taleText,
                     username: currentUser.username,
                     currentScore: 0,
                     voted: false
@@ -180,14 +180,14 @@ class App extends Component<AppProps, AppState> {
             .catch((err) => {
                 console.log('Could not submit tale');
             });
-        */
+
 
         // TODO: remove after Api call
-        const { currentStall, currentUser } = this.state;
-        const newStallInfo = currentStall;
-        const newLocalTale: StallTale = { taleId: 5, taleText, username: currentUser.username, currentScore: 0, voted: false };
-        newStallInfo.tales.unshift(newLocalTale);
-        this.setState({ currentStall: newStallInfo });
+        // const { currentStall, currentUser } = this.state;
+        // const newStallInfo = currentStall;
+        // const newLocalTale: StallTale = { taleId: 5, taleText, username: currentUser.username, currentScore: 0, voted: false };
+        // newStallInfo.tales.unshift(newLocalTale);
+        // this.setState({ currentStall: newStallInfo });
     }
 
     /**
@@ -195,24 +195,24 @@ class App extends Component<AppProps, AppState> {
      *
      * @return {JSX.Element}
      */
-    render (): JSX.Element {
+    render(): JSX.Element {
         const { currentStall, currentUser } = this.state;
 
         return (
             <Router>
                 <Switch>
-                    <Route 
-                        path={`${Routes.STALL_INFO}/:stallid`} 
+                    <Route
+                        path={`${Routes.STALL_INFO}/:stallid`}
                         exact
                         component={() => <StallInfoScreen currentStall={currentStall} getStallInfo={this.getStallInfo} />}
                     />
-                    <Route 
-                        path={`${Routes.STALL_HOME}/:stallid`} 
+                    <Route
+                        path={`${Routes.STALL_HOME}/:stallid`}
                         exact
                         component={() => <StallHomeScreen currentStall={currentStall} currentUser={currentUser} getStallInfo={this.getStallInfo} onRatingChange={this.onRatingChange} onTaleVote={this.onTaleVote} />}
                     />
-                    <Route 
-                        path={`${Routes.STALL_WRITE}/:stallid`} 
+                    <Route
+                        path={`${Routes.STALL_WRITE}/:stallid`}
                         exact
                         component={() => <TaleWriteScreen currentStall={currentStall} currentUser={currentUser} getStallInfo={this.getStallInfo} onTaleSubmit={this.onTaleSubmit} />}
                     />
