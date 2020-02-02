@@ -108,7 +108,13 @@ router.get('/:id', auth(), async (ctx) => {
         }
     });
 
-    ctx.body = { address: stall.address, name: stall.name, tales: stall.tales, ratings: stall.ratings, myRating: rating.score };
+    let myRating = null;
+
+    if (rating !== undefined) {
+        myRating = rating.score;
+    }
+
+    ctx.body = { address: stall.address, name: stall.name, tales: stall.tales, ratings: stall.ratings, myRating };
     ctx.status = 200;
     return;
 });
