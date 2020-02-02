@@ -23,23 +23,23 @@ router.get('/random', async (ctx) => {
     return;
 });
 
-router.get('/:id/noauth', async (ctx) => {
-    const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
-        attributes: ['name', 'createdAt'],
-    });
+// router.get('/:id/noauth', async (ctx) => {
+//     const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
+//         attributes: ['name', 'createdAt'],
+//     });
 
-    if (stall === null) {
-        ctx.body = {
-            response: 'not found',
-        };
+//     if (stall === null) {
+//         ctx.body = {
+//             response: 'not found',
+//         };
 
-        ctx.status = 404;
-        return;
-    }
+//         ctx.status = 404;
+//         return;
+//     }
 
-    ctx.body = stall;
-    return;
-});
+//     ctx.body = stall;
+//     return;
+// });
 
 
 
@@ -89,6 +89,8 @@ router.get('/:id', auth(), async (ctx) => {
         }],
     });
 
+
+
     if (stall === null) {
         ctx.body = {
             response: 'not found',
@@ -98,7 +100,16 @@ router.get('/:id', auth(), async (ctx) => {
         return;
     }
 
-    ctx.body = stall;
+    const [rating] = await ctx.db.models.rating.findAll({
+        attributes: ['score'],
+        where: {
+            UserId: ctx.user.id,
+            StallId: ctx.params.id,
+        }
+    });
+
+    ctx.body = { address: stall.address, name: stall.name, tales: stall.tales, ratings: stall.ratings, myRating: rating.score };
+    ctx.status = 200;
     return;
 });
 
