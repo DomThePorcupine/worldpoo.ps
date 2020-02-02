@@ -1,13 +1,27 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 /**
  * Namespace module that handles API requests
  */
 class Api {
     endpoint: string;
+    transport: AxiosInstance
 
     constructor() {
-        this.endpoint = 'https://api.worldpoops.xyz/v1';
+        // Use location.host for testing
+        this.endpoint = (location.host.indexOf('xyz') >= 0) ? location.host + '/v1' : 'http://0.0.0.0:5000/v1';
+
+        this.transport = axios.create({
+            withCredentials: true, // Needed for the token
+        });
+    }
+
+    /**
+     * Get a rnadom stall
+     * @returns {Promise} - Contains the random stall id
+     */
+    getRandomStall(): Promise<any> {
+        return this.transport.get(`${this.endpoint}/stall/random`);
     }
 
     /**
@@ -16,7 +30,7 @@ class Api {
      * @returns {Promise} - promise containing result from API call
      */
     getStallInfo(stallId: number): Promise<any> {
-        return axios.get(`${this.endpoint}/stall/${stallId}`);
+        return this.transport.get(`${this.endpoint}/stall/${stallId}`);
     }
 
     /**
@@ -26,7 +40,7 @@ class Api {
      * @returns {Promise} - promise containing result from API call
      */
     registerUser(username: string, password: string): Promise<any> {
-        return axios.post(`${this.endpoint}/user/register`, {
+        return this.transport.post(`${this.endpoint}/user/register`, {
             username,
             password
         });
@@ -39,7 +53,7 @@ class Api {
      * @returns {Promise} - promise containing result from API call
      */
     loginUser(username: string, password: string): Promise<any> {
-        return axios.post(`${this.endpoint}/auth/login`, {
+        return this.transport.post(`${this.endpoint}/auth/login`, {
             username,
             password
         });
@@ -51,7 +65,7 @@ class Api {
      * @param stallId - stale id of the tale
      */
     submitTale(taleText: string, stallId: number): Promise<any> {
-        return axios.post(`${this.endpoint}/tale`, {
+        return this.transport.post(`${this.endpoint}/tale`, {
             taleText,
             stallId
         });
@@ -63,7 +77,7 @@ class Api {
      * @param score - score to give stall
      */
     rateStall(stallId: number, score: number): Promise<any> {
-        return axios.post(`${this.endpoint}/rating`, {
+        return this.transport.post(`${this.endpoint}/rating`, {
             stallId,
             score
         });
@@ -75,7 +89,7 @@ class Api {
      * @param vote - true if upvote, flase if downvote
      */
     voteTale(taleId: number, vote: boolean): Promise<any> {
-        return axios.post(`${this.endpoint}/vote`, {
+        return this.transport.post(`${this.endpoint}/vote`, {
             taleId,
             vote
         });
@@ -83,16 +97,9 @@ class Api {
 
     // TODO: remove
     createStall(address: string, name: string): Promise<any> {
-        return axios.post(`${this.endpoint}/stall`, {
+        return this.transport.post(`${this.endpoint}/stall`, {
             address,
             name
-        }, {
-            headers: {
-                auth: {
-                    username: 'admin',
-                    password: 'aish6eehaef3eeZoNo4d'
-                }
-            }
         });
     }
 }

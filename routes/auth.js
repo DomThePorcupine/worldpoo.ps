@@ -52,7 +52,7 @@ router.post('/login', body(), params(['username', 'password']), async (ctx) => {
                 username: user.username,
                 vip: user.vip,
                 admin: user.admin,
-            }, SECRET));
+            }, SECRET), { httpOnly: false });
             ctx.body = {
                 response: 'success',
             };

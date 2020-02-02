@@ -40,16 +40,6 @@ class App extends Component<AppProps, AppState> {
     }
 
     componentDidMount() {
-        // TODO: remove after testing
-        /*
-        Api.createStall('1234 Mars Ave. Suite 4G', 'Smelliest Stall')
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        */
     }
 
     /**

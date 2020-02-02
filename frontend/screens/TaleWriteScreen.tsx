@@ -58,7 +58,7 @@ class TaleWriteScreen extends Component<TaleWriteScreenProps, TaleWriteScreenSta
         if (!currentStall) {
             getStallInfo(stallId);
         } else if (!currentUser) {
-            history.replace(`${Routes.REGISTER}/${stallId}`);
+            // history.replace(`${Routes.REGISTER}/${stallId}`);
         }
     }
 
@@ -85,7 +85,7 @@ class TaleWriteScreen extends Component<TaleWriteScreenProps, TaleWriteScreenSta
      *
      * @return {JSX.Element}
      */
-    render (): JSX.Element {
+    render(): JSX.Element {
         if (!this.props.currentStall) {
             return <Loading text="Loading stall..." />
         }
@@ -97,10 +97,10 @@ class TaleWriteScreen extends Component<TaleWriteScreenProps, TaleWriteScreenSta
                 <div className="taleWriteContainer">
                     <DefaultHeader className="taleWriteHeader" text={'Tell us a tale!'} />
                     <DefaultTextArea
-                        className="taleWriteTextArea" 
+                        className="taleWriteTextArea"
                         placeholder={'It was late at night ...'}
-                        value={taleText} 
-                        onValueChange={this.onTaleTextChange} 
+                        value={taleText}
+                        onValueChange={this.onTaleTextChange}
                     />
                     <DefaultPrimaryButton
                         className="taleWriteSubmitBtn"

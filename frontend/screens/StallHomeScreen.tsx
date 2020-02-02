@@ -37,9 +37,12 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
         if (!currentStall) {
+            console.log('Getting stall info')
             getStallInfo(stallId);
         } else if (!currentUser) {
-            history.replace(`${Routes.REGISTER}/${stallId}`);
+            console.log(currentUser)
+            console.log('Also this'); // How tf is this also being called?!
+            // history.replace(`${Routes.REGISTER}/${stallId}`);
         }
     }
 
@@ -77,7 +80,7 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
      *
      * @return {JSX.Element}
      */
-    render (): JSX.Element {
+    render(): JSX.Element {
         const { currentStall, onRatingChange, onTaleVote } = this.props;
 
         if (!currentStall) {
@@ -89,29 +92,29 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
                 <DefaultTopBar title={currentStall.name} />
                 <div className="stallHomeScreenContainer">
                     <img className="stallHomeScreenPoopImg" src={poopImg} />
-                    <DefaultHeader 
-                        className="stallHomeScreenRating" 
-                        text={this.getAvgRating(currentStall.myRating 
-                            ? [...currentStall.ratings, { score: currentStall.myRating  }]
+                    <DefaultHeader
+                        className="stallHomeScreenRating"
+                        text={this.getAvgRating(currentStall.myRating
+                            ? [...currentStall.ratings, { score: currentStall.myRating }]
                             : currentStall.ratings)
                         }
                     />
                     <DefaultText
                         className="stallHomeScreenRatingMsg"
-                        text={this.getRatingsMsg(currentStall.myRating)} 
+                        text={this.getRatingsMsg(currentStall.myRating)}
                     />
-                    <RatingOptions 
+                    <RatingOptions
                         className="stallHomeScreenRatingContainer"
                         value={currentStall.myRating}
-                        onValueChange={onRatingChange} 
-                        ratings={[1,2,3,4,5]}
+                        onValueChange={onRatingChange}
+                        ratings={[1, 2, 3, 4, 5]}
                     />
                     <DefaultPrimaryButton
                         className="stallHomeScreenWriteBtn"
                         text={"Write Story"}
-                        onClick={() => { 
+                        onClick={() => {
                             this.props.history.push(`${Routes.STALL_WRITE}/${currentStall.stallId}`)
-                        }} 
+                        }}
                     />
                     <StallTalesList tales={currentStall.tales} onTaleVote={onTaleVote} />
                 </div>

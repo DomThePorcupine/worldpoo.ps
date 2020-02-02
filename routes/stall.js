@@ -11,6 +11,18 @@ const router = new Router({
     prefix: '/stall',
 });
 
+router.get('/random', auth(), async (ctx) => {
+    const stalls = await ctx.db.models.stall.findAll({
+        order: [['createdAt', 'DESC']],
+        attributes: ['id'],
+        limit: 10,
+    });
+
+    ctx.body = stalls[Math.floor(Math.random() * stalls.length)] || {};
+    ctx.staus = 200;
+    return;
+});
+
 
 /**
  * @api {get} api/v1/stall/:id Get info about a stall
@@ -44,7 +56,7 @@ const router = new Router({
  *     }
  *
  */
-router.get('/:id', body(), auth(), async (ctx) => {
+router.get('/:id', auth(), async (ctx) => {
     const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
         attributes: ['address', 'name', 'createdAt'],
         include: [{

@@ -71,7 +71,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
                     .then((res) => {
                         const newUser: User = { username };
                         setCurrentUser(newUser);
-                        history.replace(`${Routes.STALL_HOME}/${stallId}`);
+                        history.replace(Routes.HOME);
                     })
                     .catch((err) => {
                         this.setState({ error: 'Invalid username or password.' });
@@ -104,7 +104,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
             .then((res) => {
                 const newUser: User = { username };
                 setCurrentUser(newUser);
-                history.replace(`${Routes.STALL_HOME}/${stallId}`);
+                history.replace(Routes.HOME);
             })
             .catch((err) => {
                 this.setState({ error: 'Invalid username or password.' });
