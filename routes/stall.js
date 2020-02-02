@@ -11,7 +11,7 @@ const router = new Router({
     prefix: '/stall',
 });
 
-router.get('/random', auth(), async (ctx) => {
+router.get('/random', async (ctx) => {
     const stalls = await ctx.db.models.stall.findAll({
         order: [['createdAt', 'DESC']],
         attributes: ['id'],
@@ -22,6 +22,25 @@ router.get('/random', auth(), async (ctx) => {
     ctx.staus = 200;
     return;
 });
+
+router.get('/:id/noauth', async (ctx) => {
+    const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
+        attributes: ['name', 'createdAt'],
+    });
+
+    if (stall === null) {
+        ctx.body = {
+            response: 'not found',
+        };
+
+        ctx.status = 404;
+        return;
+    }
+
+    ctx.body = stall;
+    return;
+});
+
 
 
 /**
