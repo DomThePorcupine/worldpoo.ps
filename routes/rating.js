@@ -65,7 +65,11 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
         return;
     }
 
-    const ratings = await ctx.user.getRatings();
+    const ratings = await ctx.user.getRatings({
+        where: {
+            StallId: stall.id,
+        }
+    });
 
     if (ratings.length > 0) {
         ctx.body = {
@@ -78,7 +82,6 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
 
     // Force score to be a number
     body.score = Number(body.score);
-    console.log(body.score);
 
 
     // Check the score is between 0 and 5
