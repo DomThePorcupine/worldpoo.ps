@@ -23,23 +23,23 @@ router.get('/random', async (ctx) => {
     return;
 });
 
-// router.get('/:id/noauth', async (ctx) => {
-//     const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
-//         attributes: ['name', 'createdAt'],
-//     });
+router.get('/:id/noauth', async (ctx) => {
+    const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
+        attributes: ['name', 'createdAt'],
+    });
 
-//     if (stall === null) {
-//         ctx.body = {
-//             response: 'not found',
-//         };
+    if (stall === null) {
+        ctx.body = {
+            response: 'not found',
+        };
 
-//         ctx.status = 404;
-//         return;
-//     }
+        ctx.status = 404;
+        return;
+    }
 
-//     ctx.body = stall;
-//     return;
-// });
+    ctx.body = stall;
+    return;
+});
 
 
 
