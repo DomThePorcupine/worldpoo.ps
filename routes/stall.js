@@ -81,7 +81,8 @@ router.get('/:id', auth(), async (ctx) => {
         include: [{
             model: ctx.db.models.tale,
             as: 'tales',
-            attributes: ['taleText', 'username', 'id'],
+            attributes: ['taleText', 'username', 'currentScore', 'id'],
+            raw: true,
         }, {
             model: ctx.db.models.rating,
             as: 'ratings',
@@ -100,6 +101,31 @@ router.get('/:id', auth(), async (ctx) => {
         return;
     }
 
+    const taleIds = stall.tales.map((tale) => { return tale.id });
+
+    const taleVotes = await ctx.db.models.vote.findAll({
+        where: {
+            id: taleIds,
+            UserId: ctx.user.id,
+        },
+        attributes: ['TaleId', 'vote']
+    });
+    const voteMap = {};
+
+    taleVotes.forEach((vote) => {
+        voteMap[vote.TaleId] = vote.vote;
+    });
+
+    const tales = [];
+
+    for (let i = 0; i < stall.tales.length; i++) {
+        let tmp = stall.tales[i].get();
+        if (voteMap[String(stall.tales[i].id)] !== undefined) {
+            tmp.myVote = voteMap[String(stall.tales[i].id)];
+        }
+        tales.push(tmp);
+    }
+
     const [rating] = await ctx.db.models.rating.findAll({
         attributes: ['score'],
         where: {
@@ -114,7 +140,7 @@ router.get('/:id', auth(), async (ctx) => {
         myRating = rating.score;
     }
 
-    ctx.body = { address: stall.address, name: stall.name, tales: stall.tales, ratings: stall.ratings, myRating };
+    ctx.body = { address: stall.address, name: stall.name, tales, ratings: stall.ratings, myRating };
     ctx.status = 200;
     return;
 });

@@ -49,10 +49,12 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
     body.vote = Boolean(body.vote);
 
 
-    const oldVote = await ctx.db.models.vote.findAll({ where: {
-        TaleId: body.taleId,
-        UserId: ctx.user.id,
-    } });
+    const oldVote = await ctx.db.models.vote.findAll({
+        where: {
+            TaleId: body.taleId,
+            UserId: ctx.user.id,
+        }
+    });
 
     if (oldVote.length > 0) {
         ctx.body = {
@@ -64,8 +66,6 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
     }
 
     const tale = await ctx.db.models.tale.findByPk(body.taleId);
-
-    console.log(tale);
 
     if (!tale) {
         ctx.body = {
