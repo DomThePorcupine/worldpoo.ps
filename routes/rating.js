@@ -13,9 +13,6 @@ const router = new Router({
 });
 
 
-<<<<<<< HEAD
-router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (ctx) => {
-=======
 /**
  * @api {post} api/v1/rating Rate a stall
  * @apiName Rate
@@ -55,7 +52,6 @@ router.post('/', body(), auth(), params(['score', 'review', 'stallid']), async (
  *     }
  */
 router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
->>>>>>> master
     const body = ctx.request.body;
 
     const stall = await ctx.db.models.stall.findByPk(body.stallId);
@@ -74,8 +70,6 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
     if (ratings.length > 0) {
         ctx.body = {
             response: 'you have already given a review',
-<<<<<<< HEAD
-=======
         };
 
         ctx.status = 400;
@@ -90,7 +84,6 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
     if (body.score < 0 || body.score > 5) {
         ctx.body = {
             response: 'invalid score',
->>>>>>> master
         };
 
         ctx.status = 400;

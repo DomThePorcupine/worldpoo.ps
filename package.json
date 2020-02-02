@@ -9,7 +9,7 @@
     "dev:frontend": "parcel frontend/index.html",
     "build:frontend": "parcel build frontend/index.html",
     "lint": "eslint .",
-    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs",
+    "heroku-postbuild": "apidoc -i routes/ -o pub/api/v1/docs && npm run build:frontend",
     "start": "node index.js"
   },
   "repository": {
@@ -31,6 +31,7 @@
     "koa-cookie": "^1.0.0",
     "koa-logger": "^3.2.1",
     "koa-mount": "^4.0.0",
+    "koa-react-router": "^4.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "pg": "^7.17.1",

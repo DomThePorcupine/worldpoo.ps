@@ -7,7 +7,7 @@ class Api {
     endpoint: string;
 
     constructor() {
-        this.endpoint = 'https://worldpoops.herokuapp.com/api/v1';
+        this.endpoint = 'https://api.worldpoops.xyz/v1';
     }
 
     /**

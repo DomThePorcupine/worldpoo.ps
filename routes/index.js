@@ -10,7 +10,7 @@ const rating = require('./rating');
 const user = require('./user');
 
 const router = new Router({
-    prefix: '/api/v1',
+    prefix: '/v1',
 });
 
 router.use(tale.routes());
