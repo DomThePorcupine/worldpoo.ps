@@ -3,6 +3,7 @@ const Koa = require('koa');
 const logger = require('koa-logger');
 const cookie = require('koa-cookie').default;
 const serve = require('koa-static');
+const cors = require('@koa/cors');
 
 // -- Local imports -- //
 const routes = require('./routes');
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 const app = new Koa();
 const db = new Database(false); // Dont constantly delete everything
 
+app.use(cors());
 app.use(logger());
 app.use(cookie());
 

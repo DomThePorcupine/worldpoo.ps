@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/DomThePorcupine/worldpoo.ps#readme",
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "bcrypt": "^3.0.7",
     "cookie-parser": "^1.4.4",
     "jsonwebtoken": "^8.5.1",
