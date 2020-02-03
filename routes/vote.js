@@ -48,23 +48,6 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
     // Force what was sent to be a boolean
     body.vote = Boolean(body.vote);
 
-
-    const oldVote = await ctx.db.models.vote.findAll({
-        where: {
-            TaleId: body.taleId,
-            UserId: ctx.user.id,
-        }
-    });
-
-    if (oldVote.length > 0) {
-        ctx.body = {
-            response: 'already voted',
-        };
-
-        ctx.status = 400;
-        return;
-    }
-
     const tale = await ctx.db.models.tale.findByPk(body.taleId);
 
     if (!tale) {
@@ -76,8 +59,34 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
         return;
     }
 
+    const [oldVote] = await ctx.db.models.vote.findAll({
+        where: {
+            TaleId: body.taleId,
+            UserId: ctx.user.id,
+        }
+    });
+
+    if (oldVote) {
+
+        // adjust score based on this vote
+        if (oldVote.vote !== body.vote) {
+            oldVote.vote = body.vote;
+            await oldVote.save();
+
+            tale.currentScore += body.vote ? 2 : -2;
+            await tale.save();
+        }
+
+        ctx.body = {
+            response: 'vote updated',
+        };
+
+        ctx.status = 200;
+        return;
+    }
+
     // adjust score based on this vote
-    tale.currentScore = body.vote ? 1 : -1;
+    tale.currentScore += body.vote ? 1 : -1;
     await tale.save();
 
     // Finally record the vote

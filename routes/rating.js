@@ -54,6 +54,10 @@ const router = new Router({
 router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
     const body = ctx.request.body;
 
+    // Force score to be a number
+    body.score = Number(body.score);
+
+
     const stall = await ctx.db.models.stall.findByPk(body.stallId);
 
     if (stall === null) {
@@ -65,23 +69,25 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
         return;
     }
 
-    const ratings = await ctx.user.getRatings({
+    const [oldRating] = await ctx.user.getRatings({
         where: {
-            StallId: stall.id,
+            StallId: stall.id, // Can only be one
         }
     });
 
-    if (ratings.length > 0) {
+    if (oldRating) {
+
+        oldRating.score = body.score;
+        await oldRating.save();
+
         ctx.body = {
-            response: 'you have already given a review',
+            response: 'review updated',
         };
 
-        ctx.status = 400;
+        ctx.status = 200;
         return;
     }
 
-    // Force score to be a number
-    body.score = Number(body.score);
 
 
     // Check the score is between 0 and 5

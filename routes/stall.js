@@ -90,7 +90,13 @@ router.get('/:id', auth(), async (ctx) => {
         }],
     });
 
+    const [averageScore] = await ctx.db.models.rating.findAll({
+        where: {
+            StallId: ctx.params.id,
+        },
 
+        attributes: [[ctx.db.sequelize.fn('AVG', ctx.db.sequelize.col('score')), 'average']]
+    });
 
     if (stall === null) {
         ctx.body = {
@@ -140,7 +146,7 @@ router.get('/:id', auth(), async (ctx) => {
         myRating = rating.score;
     }
 
-    ctx.body = { address: stall.address, name: stall.name, tales, ratings: stall.ratings, myRating };
+    ctx.body = { address: stall.address, name: stall.name, tales, ratings: stall.ratings, myRating, averageScore: Number(averageScore.get().average) };
     ctx.status = 200;
     return;
 });
