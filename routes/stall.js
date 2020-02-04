@@ -107,7 +107,7 @@ router.get('/:id', auth(), async (ctx) => {
     console.log(taleIds)
     const taleVotes = await ctx.db.models.vote.findAll({
         where: {
-            id: taleIds,
+            TaleId: taleIds,
             UserId: ctx.user.id,
         },
         attributes: ['TaleId', 'vote']
