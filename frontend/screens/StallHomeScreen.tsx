@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 // -- Our imports -- //
 import DefaultHeader from '../components/default/DefaultHeader';
@@ -24,7 +23,7 @@ type StallHomeScreenProps = RouteComponentProps & {
     onRatingChange: (rating: number) => void;
     onTaleVote: (taleIndex: number, vote: boolean) => void;
     getStallInfo: (stallId: number) => void;
-    setCurrentUser: (user: User) => void;
+    getUsername: () => void;
 };
 
 type StallHomeScreenState = {};
@@ -35,31 +34,14 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
      * In the case that the user logs in straight with the URL, we want to get the stall and login first.
      */
     componentDidMount() {
-        const { currentStall, currentUser, getStallInfo, setCurrentUser } = this.props;
+        const { currentStall, currentUser, getStallInfo, getUsername } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
-        if (!currentStall) {
-            console.log('Getting stall info')
+        if (!currentUser) {
+            getUsername();
+        } else if (!currentStall) {
             getStallInfo(stallId);
-        } else if (!currentUser) {
-            // TODO: fix cookie
-            const userToken = Cookies.get('token');
-            console.log(userToken);
-            // setCurrentUser(userToken.username);
         }
-    }
-
-    /**
-     * Gets average rating of stall
-     * @param ratings - array of all ratings of this stall
-     */
-    getAvgRating(ratings: Array<StallRating>): string {
-        if (ratings.length <= 0) {
-            return 'Be the first one to rate!'
-        }
-
-        const totalRatings = ratings.reduce((a: number, b: StallRating) => a + b.score, 0);
-        return `${(totalRatings / ratings.length).toFixed(1)}`;
     }
 
     /**
@@ -101,10 +83,7 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
                     <img className="stallHomeScreenPoopImg" src={poopImg} />
                     <DefaultHeader
                         className="stallHomeScreenRating"
-                        text={this.getAvgRating(currentStall.myRating
-                            ? [...currentStall.ratings, { score: currentStall.myRating }]
-                            : currentStall.ratings)
-                        }
+                        text={currentStall.averageScore}
                     />
                     <DefaultText
                         className="stallHomeScreenRatingMsg"

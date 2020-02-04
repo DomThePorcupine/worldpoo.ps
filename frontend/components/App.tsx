@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-d
 
 // -- Our imports -- //
 import StallNotFoundScreen from '../screens/StallNotFoundScreen';
+import ServerDownScreen from '../screens/ServerDownScreen';
 import HomeScreen from '../screens/HomeScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import StallInfoScreen from '../screens/StallInfoScreen';
@@ -12,7 +13,7 @@ import TaleWriteScreen from '../screens/TaleWriteScreen';
 
 import Api from '../utils/modules/Api';
 import { Routes } from '../utils/Routes';
-import { StallInfo, User, StallTale } from '../utils/Types';
+import { StallInfo, User } from '../utils/Types';
 import '../styles/components/App.css';
 
 type AppProps = {};
@@ -33,6 +34,7 @@ class App extends Component<AppProps, AppState> {
         }
 
         this.getStallInfo = this.getStallInfo.bind(this);
+        this.getUsername = this.getUsername.bind(this);
         this.setCurrentUser = this.setCurrentUser.bind(this);
         this.onRatingChange = this.onRatingChange.bind(this);
         this.onTaleVote = this.onTaleVote.bind(this);
@@ -48,35 +50,28 @@ class App extends Component<AppProps, AppState> {
             .then((res) => {
                 let stallInfo = res.data;
                 stallInfo.id = stallId;
+                console.log(res.data);
                 this.setState({ currentStall: stallInfo });
             })
             .catch((err) => {
                 window.location.replace(Routes.STALL_NOT_FOUND);
             });
+    }
 
-
-        // TODO: remove after Api call
-        // let stallInfo: StallInfo = {
-        //     stallId: 1,
-        //     address: '1234 End of World Suite 4G',
-        //     name: 'Smelly Stall #120',
-        //     myRating: 4, // TODO: added new field
-        //     tales: [
-        //         // TODO: added new fields: taleId, currentScore, voted
-        //         { taleId: 1, taleText: 'Damn, that was a rough one.', username: 'Adnan', currentScore: 13, voted: true }, 
-        //         { taleId: 2, taleText: 'Testing how long text can be without preview. How about this much?', username: 'Dom', currentScore: 145, voted: false }, 
-        //         { taleId: 3, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Taylor', currentScore: 1323, voted: false }, 
-        //         { taleId: 4, taleText: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ', username: 'Andres', currentScore: 5, voted: true }, 
-        //     ],
-        //     // TODO: Do we want just a average rating here?
-        //     ratings: [
-        //         { score: 3 },
-        //         { score: 5 },
-        //         { score: 4 },
-        //     ],
-        // }
-
-        // this.setState({ currentStall: stallInfo });
+    /**
+     * Get current username from API when token is already set
+     */
+    getUsername(): void {
+        Api.getUsername()
+            .then((res) =>{
+                const user: User = { username: res.data.username };
+                this.setState({ currentUser: user });
+            })
+            .catch((err) => {
+                console.log('User is not authenticated.');
+                const stallId = window.location.pathname.split('/').slice(-1)[0];
+                window.location.replace(`${Routes.REGISTER}/${stallId}`);
+            });
     }
 
     /**
@@ -95,9 +90,7 @@ class App extends Component<AppProps, AppState> {
         const { currentStall } = this.state;
         Api.rateStall(currentStall.id, rating)
             .then((res) => {
-                const newStallInfo = currentStall;
-                newStallInfo.myRating = rating;
-                this.setState({ currentStall: newStallInfo });
+                this.getStallInfo(currentStall.id);
             })
             .catch((err) => {
                 console.log('Could not rate stall');
@@ -111,12 +104,9 @@ class App extends Component<AppProps, AppState> {
      */
     onTaleVote(taleIndex: number, vote: boolean) {
         const { currentStall } = this.state;
-        Api.voteTale(currentStall.tales[taleIndex].taleId, vote)
+        Api.voteTale(currentStall.tales[taleIndex].id, vote)
             .then((res) => {
-                const newStallInfo = currentStall;
-                newStallInfo.tales[taleIndex].currentScore += vote ? 1 : -1;
-                newStallInfo.tales[taleIndex].voted = vote;
-                this.setState({ currentStall: newStallInfo });
+                this.getStallInfo(currentStall.id);
             })
             .catch((err) => {
                 console.log('Could not vote on tale');
@@ -132,19 +122,9 @@ class App extends Component<AppProps, AppState> {
         const { currentStall, currentUser } = this.state;
         Api.submitTale(taleText, stallId)
             .then((res) => {
-                const newStallInfo = currentStall;
-                const newLocalTale: StallTale = {
-                    taleId: res.taleId,
-                    taleText,
-                    username: currentUser.username,
-                    currentScore: 0,
-                    voted: false
-                };
-                newStallInfo.tales.unshift(newLocalTale);
-                this.setState({ currentStall: newStallInfo });
+                this.getStallInfo(stallId);
             })
             .catch((err) => {
-                console.log(err);
                 console.log('Could not submit tale');
             });
     }
@@ -163,12 +143,7 @@ class App extends Component<AppProps, AppState> {
                     <Route
                         path={`${Routes.STALL_INFO}/:stallid`}
                         exact
-                        component={() => 
-                            <StallInfoScreen
-                                currentStall={currentStall}
-                                getStallInfo={this.getStallInfo}
-                            />
-                        }
+                        component={() => <StallInfoScreen />}
                     />
                     <Route
                         path={`${Routes.STALL_HOME}/:stallid`}
@@ -180,7 +155,7 @@ class App extends Component<AppProps, AppState> {
                                 getStallInfo={this.getStallInfo}
                                 onRatingChange={this.onRatingChange}
                                 onTaleVote={this.onTaleVote}
-                                setCurrentUser={this.setCurrentUser}
+                                getUsername={this.getUsername}
                             />
                         }
                     />
@@ -193,11 +168,13 @@ class App extends Component<AppProps, AppState> {
                                 currentUser={currentUser}
                                 getStallInfo={this.getStallInfo}
                                 onTaleSubmit={this.onTaleSubmit}
+                                getUsername={this.getUsername}
                             />
                         }
                     />
                     <Route path={Routes.REGISTER} component={() => <RegisterScreen setCurrentUser={this.setCurrentUser} />} />
                     <Route path={Routes.STALL_NOT_FOUND} exact component={StallNotFoundScreen} />
+                    <Route path={Routes.SERVER_DOWN} exact component={ServerDownScreen} />
                     <Route component={HomeScreen} />
                 </Switch>
             </Router>

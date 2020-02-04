@@ -66,7 +66,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
                     .then((res) => {
                         const newUser: User = { username };
                         setCurrentUser(newUser);
-                        history.replace(Routes.HOME);
+                        history.replace(`${Routes.STALL_HOME}/${stallId}`);
                     })
                     .catch((err) => {
                         this.setState({ error: 'Invalid username or password.' });
@@ -91,7 +91,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
             .then((res) => {
                 const newUser: User = { username };
                 setCurrentUser(newUser);
-                history.replace(Routes.HOME);
+                history.replace(`${Routes.STALL_HOME}/${stallId}`);
             })
             .catch((err) => {
                 this.setState({ error: 'Invalid username or password.' });
@@ -113,7 +113,7 @@ class RegisterScreen extends Component<RegisterScreenProps, RegisterScreenState>
                 {error && <DefaultText className="registerScreenError" text={error} />}
                 <DefaultText className="registerScreenInputHeader" text='Password' />
                 <DefaultTextInput className="registerScreenInput" type={'password'} value={password} onValueChange={this.onPasswordChange} />
-                <DefaultText className="registerScreenInputLogin" text='Login instead?' onClick={this.toggleSignIn} />
+                <DefaultText className="registerScreenInputLogin" text={registerState ? 'Login instead?' : 'Register instead?'} onClick={this.toggleSignIn} />
                 {registerState ? (
                     <DefaultPrimaryButton className="registerScreenRegisterBtn" text={'Register'} onClick={this.onRegisterClick} disabled={!username || !password} />
                 ) : (

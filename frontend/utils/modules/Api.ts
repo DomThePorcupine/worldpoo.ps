@@ -9,7 +9,8 @@ class Api {
 
     constructor() {
         // Use location.host for testing
-        this.endpoint = (location.host.indexOf('xyz') >= 0) ? 'https://api.worldpoops.xyz/v1' : 'http://0.0.0.0:5000/v1';
+        // this.endpoint = (location.host.indexOf('xyz') >= 0) ? 'https://api.worldpoops.xyz/v1' : 'http://0.0.0.0:5000/v1';
+        this.endpoint = 'https://api.worldpoops.xyz/v1';
 
         this.transport = axios.create({
             withCredentials: true, // Needed for the token
@@ -22,6 +23,14 @@ class Api {
      */
     getRandomStall(): Promise<any> {
         return this.transport.get(`${this.endpoint}/stall/random`);
+    }
+
+    /**
+     * Gets stall name without having to authenticate
+     * @param stallId 
+     */
+    getNoAuthStallInfo(stallId: number): Promise<any> {
+        return axios.get(`${this.endpoint}/stall/${stallId}/noauth`);
     }
 
     /**
@@ -44,6 +53,13 @@ class Api {
             username,
             password
         });
+    }
+
+    /**
+     * Get username of current user (this means that the user is already authenticated token-wise)
+     */
+    getUsername(): Promise<any> {
+        return this.transport.get(`${this.endpoint}/user/whois`);
     }
 
     /**
@@ -95,7 +111,6 @@ class Api {
         });
     }
 
-    // TODO: remove
     createStall(address: string, name: string): Promise<any> {
         return this.transport.post(`${this.endpoint}/stall`, {
             address,

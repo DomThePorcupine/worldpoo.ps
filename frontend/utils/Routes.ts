@@ -4,5 +4,6 @@ export const Routes = {
     STALL_NOT_FOUND: '/notfound',
     STALL_INFO: '/stall/info',
     STALL_HOME: '/stall',
-    STALL_WRITE: '/stall/write'
+    STALL_WRITE: '/stall/write',
+    SERVER_DOWN: '/serverdown'
 };

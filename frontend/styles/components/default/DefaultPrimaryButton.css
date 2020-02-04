@@ -6,6 +6,8 @@
     border: none;
     outline: none;
     border-radius: 5px;
+
+    box-shadow: 4px 4px 10px #c0c0c0, -4px -4px 10px #f3f3f3;
 }
 
 .defaultPrimaryInactiveButton {

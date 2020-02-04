@@ -44,8 +44,8 @@ const StallTaleComponent = ({ index, tale, expanded, onToggleExpand, onTaleVote 
                 )
             }
         </div>
-        <div className="stallTaleVoteContainer" onClick={() => { onTaleVote(index, !tale.voted) }}>
-            <img className="stallTaleVoteButton" src={tale.voted ? poopImg : emptyPoopImg} />
+        <div className="stallTaleVoteContainer" onClick={() => { onTaleVote(index, tale.myVote === undefined ? true : !tale.myVote) }}>
+            <img className="stallTaleVoteButton" src={tale.myVote ? poopImg : emptyPoopImg} />
             <DefaultText className="stallTaleVoteText" text={`${tale.currentScore}`} />
         </div>
     </div>

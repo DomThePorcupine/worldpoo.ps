@@ -19,6 +19,7 @@ type TaleWriteScreenProps = RouteComponentProps & {
     currentUser: User | undefined;
     getStallInfo: (stallId: string) => void;
     onTaleSubmit: (taleText: string, stallId: number) => void;
+    getUsername: () => void;
 };
 
 type TaleWriteScreenState = {
@@ -52,13 +53,13 @@ class TaleWriteScreen extends Component<TaleWriteScreenProps, TaleWriteScreenSta
      * In the case that the user logs in straight with the URL, we want to get the stall and login first.
      */
     componentDidMount() {
-        const { history, currentStall, currentUser, getStallInfo } = this.props;
+        const { currentStall, currentUser, getStallInfo, getUsername } = this.props;
         const stallId = window.location.pathname.split('/').slice(-1)[0];
 
-        if (!currentStall) {
+        if (!currentUser) {
+            getUsername();
+        } else if (!currentStall) {
             getStallInfo(stallId);
-        } else if (!currentUser) {
-            // history.replace(`${Routes.REGISTER}/${stallId}`);
         }
     }
 

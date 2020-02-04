@@ -1,0 +1,97 @@
+.homeScreenContainer {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.homeScreenSwipeView {
+    height: 400px;
+    position: relative;
+    width: 85%;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.homeScreenSwipeViewContainer {
+    height: 400px;
+    width: 100%;
+    height: 90%;
+    margin-top: 10px;
+    background-color: #E5E5E5;
+    border-radius: 5px;
+    box-shadow: 3px 3px 6px #c3c3c3, -3px -3px 6px #ffffff;
+}
+
+.homeScreenSwipeViewContent {
+    width: 90%;
+    margin: 0px auto;
+}
+
+.homeScreenSwipetext {
+    position: absolute;
+    font-style: italic;
+    bottom: 20%;
+    left: 30%;
+}
+
+.homeScreenImg {
+    margin: 0px auto;
+    margin-top: 20px;
+    width: 25%;
+}
+
+.homeScreenAppName {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.homeScreenBlurb {
+    font-style: italic;
+    margin-top: 30px;
+}
+
+.homeScreenStepHeader {
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 30px;
+}
+
+.homeScreenStepImg {
+    margin: 0px auto;
+    margin-top: 40px;
+    width: 40%;
+}
+
+.homeScreenSwipeIndexContainer {
+    width: 30%;
+    margin: 0px auto;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.homeScreenSwipeIndexCircle {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #E5E5E5;
+    box-shadow: 3px 3px 6px #c3c3c3, -3px -3px 6px #ffffff;
+}
+
+.homeScreenSwipeIndexActive {
+    background-color: #C1B0B5;
+}
+
+.homeScreenRandomStallBtn {
+    width: 80%;
+    margin: 0px auto;
+    margin-top: 90px;
+}

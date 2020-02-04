@@ -5,15 +5,21 @@ export type TopNavButton = {
   }
 
 export type StallTale = {
-    taleId: number;
+    id: number;
     currentScore: number;
     taleText: string;
     username: string;
-    voted: boolean;
+    myVote: boolean;
+    averageScore: number;
 }
 
 export type StallRating = {
     score: number;
+}
+
+export type TempStallInfo = {
+    id: number;
+    name: string;
 }
 
 export type StallInfo = {
