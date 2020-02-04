@@ -83,10 +83,6 @@ router.get('/:id', auth(), async (ctx) => {
             as: 'tales',
             attributes: ['taleText', 'username', 'currentScore', 'id'],
             raw: true,
-        }, {
-            model: ctx.db.models.rating,
-            as: 'ratings',
-            attributes: ['score'],
         }],
     });
 
@@ -108,7 +104,7 @@ router.get('/:id', auth(), async (ctx) => {
     }
 
     const taleIds = stall.tales.map((tale) => { return tale.id });
-
+    console.log(taleIds)
     const taleVotes = await ctx.db.models.vote.findAll({
         where: {
             id: taleIds,
@@ -122,6 +118,8 @@ router.get('/:id', auth(), async (ctx) => {
         voteMap[vote.TaleId] = vote.vote;
     });
 
+    console.log(voteMap);
+
     const tales = [];
 
     for (let i = 0; i < stall.tales.length; i++) {
@@ -131,6 +129,8 @@ router.get('/:id', auth(), async (ctx) => {
         }
         tales.push(tmp);
     }
+
+    console.log(tales);
 
     const [rating] = await ctx.db.models.rating.findAll({
         attributes: ['score'],
