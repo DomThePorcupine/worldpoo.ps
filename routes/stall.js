@@ -104,7 +104,7 @@ router.get('/:id', auth(), async (ctx) => {
     }
 
     const taleIds = stall.tales.map((tale) => { return tale.id });
-    console.log(taleIds)
+
     const taleVotes = await ctx.db.models.vote.findAll({
         where: {
             TaleId: taleIds,
@@ -118,7 +118,7 @@ router.get('/:id', auth(), async (ctx) => {
         voteMap[vote.TaleId] = vote.vote;
     });
 
-    console.log(voteMap);
+
 
     const tales = [];
 
@@ -130,7 +130,7 @@ router.get('/:id', auth(), async (ctx) => {
         tales.push(tmp);
     }
 
-    console.log(tales);
+    tales.sort((a, b) => { return b.currentScore - a.currentScore; })
 
     const [rating] = await ctx.db.models.rating.findAll({
         attributes: ['score'],
