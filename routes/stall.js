@@ -146,7 +146,7 @@ router.get('/:id', auth(), async (ctx) => {
         myRating = rating.score;
     }
 
-    ctx.body = { address: stall.address, name: stall.name, tales, ratings: stall.ratings, myRating, averageScore: Number(averageScore.get().average) };
+    ctx.body = { address: stall.address, name: stall.name, tales, myRating, averageScore: Number(averageScore.get().average) };
     ctx.status = 200;
     return;
 });
