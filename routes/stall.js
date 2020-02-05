@@ -110,12 +110,12 @@ router.get('/:id', auth(), async (ctx) => {
             TaleId: taleIds,
             UserId: ctx.user.id,
         },
-        attributes: ['TaleId', 'vote']
+        attributes: ['TaleId']
     });
     const voteMap = {};
 
     taleVotes.forEach((vote) => {
-        voteMap[vote.TaleId] = vote.vote;
+        voteMap[vote.TaleId] = true;
     });
 
 

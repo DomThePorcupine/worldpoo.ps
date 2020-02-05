@@ -17,7 +17,6 @@ const router = new Router({
  * @apiGroup Vote
  *
  * @apiParam {number} taleId The tale to vote on
- * @apiParam {boolean} vote true if upvote, false if downvote
  *
  * @apiSuccess {String} response The response string
  *
@@ -42,7 +41,7 @@ const router = new Router({
  *       "response": "no tale"
  *     }
  */
-router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
+router.post('/', auth(), body(), params(['taleId']), async (ctx) => {
     const body = ctx.request.body;
 
     // Force what was sent to be a boolean
@@ -67,15 +66,9 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
     });
 
     if (oldVote) {
-
-        // adjust score based on this vote
-        if (oldVote.vote !== body.vote) {
-            oldVote.vote = body.vote;
-            await oldVote.save();
-
-            tale.currentScore += body.vote ? 2 : -2;
-            await tale.save();
-        }
+        tale.currentScore -= 1;
+        await oldVote.destroy();
+        await tale.save();
 
         ctx.body = {
             response: 'vote updated',
@@ -85,8 +78,9 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
         return;
     }
 
+
     // adjust score based on this vote
-    tale.currentScore += body.vote ? 1 : -1;
+    tale.currentScore += 1;
     await tale.save();
 
     // Finally record the vote
@@ -95,6 +89,9 @@ router.post('/', auth(), body(), params(['taleId', 'vote']), async (ctx) => {
         UserId: ctx.user.id,
         TaleId: tale.id,
     });
+
+
+
 
     ctx.body = {
         response: 'ok',
