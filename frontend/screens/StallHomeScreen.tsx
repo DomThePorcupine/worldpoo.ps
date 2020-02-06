@@ -83,7 +83,7 @@ class StallHomeScreen extends Component<StallHomeScreenProps, StallHomeScreenSta
                     <img className="stallHomeScreenPoopImg" src={poopImg} />
                     <DefaultHeader
                         className="stallHomeScreenRating"
-                        text={currentStall.averageScore}
+                        text={currentStall.averageScore.toFixed(1)}
                     />
                     <DefaultText
                         className="stallHomeScreenRatingMsg"

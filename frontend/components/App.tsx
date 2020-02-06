@@ -50,7 +50,7 @@ class App extends Component<AppProps, AppState> {
             .then((res) => {
                 let stallInfo = res.data;
                 stallInfo.id = stallId;
-                console.log(res.data);
+                // console.log(res.data);
                 this.setState({ currentStall: stallInfo });
             })
             .catch((err) => {
