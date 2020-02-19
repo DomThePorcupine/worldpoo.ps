@@ -9,6 +9,7 @@ const stall = require('./stall');
 const rating = require('./rating');
 const user = require('./user');
 const vote = require('./vote');
+const bathroom = require('./bathroom');
 
 const router = new Router({
     prefix: '/v1',
@@ -21,6 +22,6 @@ router.use(stall.routes());
 router.use(rating.routes());
 router.use(user.routes());
 router.use(vote.routes());
-
+router.use(bathroom.routes());
 
 module.exports = router;

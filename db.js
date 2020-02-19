@@ -9,6 +9,7 @@ const tale = require('./models/tale');
 const stall = require('./models/stall');
 const rating = require('./models/rating');
 const vote = require('./models/vote');
+const bathroom = require('./models/bathroom');
 
 
 // -- Constants -- //
@@ -22,7 +23,7 @@ module.exports = class Database extends EventEmitter {
  *
  * @param {boolean} force - When booting, should we drop all existing tables first
  */
-    constructor (force = false) {
+    constructor(force = false) {
         super(); // For event emitter
 
         this.sequelize = new Sequelize(DB_URL);
@@ -39,14 +40,16 @@ module.exports = class Database extends EventEmitter {
                 this.models.rating = rating(this.sequelize, Sequelize.DataTypes);
                 this.models.stall = stall(this.sequelize, Sequelize.DataTypes);
                 this.models.vote = vote(this.sequelize, Sequelize.DataTypes);
+                this.models.bathroom = bathroom(this.sequelize, Sequelize.DataTypes);
 
 
                 // Set up the associations
                 this.models.rating.associate({ User: this.models.user, Stall: this.models.stall });
                 this.models.user.associate({ Tale: this.models.tale, Rating: this.models.rating });
                 this.models.tale.associate({ User: this.models.user, Stall: this.models.stall });
-                this.models.stall.associate({ Tale: this.models.tale, Rating: this.models.rating });
+                this.models.stall.associate({ Tale: this.models.tale, Rating: this.models.rating, Bathroom: this.models.bathroom });
                 this.models.vote.associate({ User: this.models.user, Tale: this.models.tale });
+                this.models.bathroom.associate({ Stall: this.models.stall })
 
                 this.sequelize.sync().then(async () => {
                     // Create default users
@@ -60,7 +63,7 @@ module.exports = class Database extends EventEmitter {
                             admin: true,
                         });
                     }
-                    console.log('ready');
+
                     this.emit('ready'); // Let everything know we are good to go
                 });
             }).catch((err) => {

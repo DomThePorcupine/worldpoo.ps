@@ -11,6 +11,7 @@ const router = new Router({
     prefix: '/stall',
 });
 
+
 router.get('/random', async (ctx) => {
     const stalls = await ctx.db.models.stall.findAll({
         order: [['createdAt', 'DESC']],
@@ -23,6 +24,29 @@ router.get('/random', async (ctx) => {
     return;
 });
 
+/**
+ * @api {get} api/v1/stall/:id/noauth Get some basic info about a stall
+ * @apiName GetNoAuthStall
+ * @apiGroup Stall
+ *
+ * @apiParam {number} id The id of the stall
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "name": "The name of the stall",
+         "createdAt": "some date"
+ *     }
+ *
+ * @apiError StallDoesNotExist A stall with that id does not exist
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "response": "stall not found"
+ *     }
+ *
+ */
 router.get('/:id/noauth', async (ctx) => {
     const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
         attributes: ['name', 'createdAt'],
@@ -49,8 +73,6 @@ router.get('/:id/noauth', async (ctx) => {
  * @apiGroup Stall
  *
  * @apiParam {number} id The id of the stall
- *
- * @apiSuccess {String} response The response string
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -169,12 +191,13 @@ router.get('/:id', auth(), async (ctx) => {
  *     }
  *
  */
-router.post('/', body(), auth(true), params(['address', 'name']), async (ctx) => {
+router.post('/', body(), auth(true), params(['address', 'name', 'bathroomId']), async (ctx) => {
     const body = ctx.request.body;
 
     const nStall = await ctx.db.models.stall.create({
         address: body.address,
         name: body.name,
+        BathroomId: body.bathroomId,
     });
 
     ctx.body = {
@@ -182,5 +205,24 @@ router.post('/', body(), auth(true), params(['address', 'name']), async (ctx) =>
     };
     return;
 });
+
+router.delete('/:id', auth(true), async (ctx) => {
+    const stall = await ctx.db.models.stall.findByPk(ctx.params.id);
+
+    if (stall === null) {
+        ctx.body = {
+            response: 'not found'
+        }
+        ctx.status = 404;
+        return;
+    }
+    await stall.destroy();
+    ctx.body = {
+        response: 'ok'
+    }
+    ctx.status = 200;
+    return;
+});
+
 
 module.exports = router;
