@@ -1,0 +1,7 @@
+module.exports = {
+    SIGN_UP: 'SIGN_UP',
+    TALE_POST: 'TALE_POST',
+    TALE_VOTE: 'TALE_VOTE',
+    STALL_RATING: 'STALL_RATING',
+    CODE_SCANNED: 'CODE_SCANNED'
+};

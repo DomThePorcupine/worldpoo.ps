@@ -5,7 +5,7 @@ const body = require('koa-bodyparser');
 // -- Local imports -- //
 const auth = require('../middleware/auth');
 const params = require('../middleware/params');
-
+const { STALL_RATING } = require('../constants');
 
 // -- Constants -- //
 const router = new Router({
@@ -14,7 +14,7 @@ const router = new Router({
 
 
 /**
- * @api {post} api/v1/rating Rate a stall
+ * @api {post} /v1/rating Rate a stall
  * @apiName Rate
  * @apiGroup Rating
  *
@@ -69,27 +69,6 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
         return;
     }
 
-    const [oldRating] = await ctx.user.getRatings({
-        where: {
-            StallId: stall.id, // Can only be one
-        }
-    });
-
-    if (oldRating) {
-
-        oldRating.score = body.score;
-        await oldRating.save();
-
-        ctx.body = {
-            response: 'review updated',
-        };
-
-        ctx.status = 200;
-        return;
-    }
-
-
-
     // Check the score is between 0 and 5
     if (body.score < 0 || body.score > 5) {
         ctx.body = {
@@ -100,6 +79,27 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
         return;
     }
 
+    const [oldRating] = await ctx.user.getRatings({
+        where: {
+            StallId: stall.id, // Can only be one
+        }
+    });
+
+
+    if (oldRating) {
+
+        oldRating.score = body.score;
+        await oldRating.save();
+        ctx.db.track(STALL_RATING, { stall: stall.name, rating: body.score });
+        ctx.body = {
+            response: 'review updated',
+        };
+
+        ctx.status = 200;
+        return;
+    }
+
+
     await ctx.db.models.rating.create({
         score: body.score,
         StallId: stall.id,
@@ -109,6 +109,9 @@ router.post('/', body(), auth(), params(['score', 'stallId']), async (ctx) => {
     // Make the associations
     // await stall.addRating(nRating);
     // await ctx.user.addRating(nRating);
+
+    ctx.db.track(STALL_RATING, { stall: stall.name, rating: body.score });
+
 
     ctx.body = {
         response: 'success',

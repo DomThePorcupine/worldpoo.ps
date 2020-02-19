@@ -157,11 +157,12 @@ router.get('/:id/feed', auth(), async (ctx) => {
  *     }
  *
  */
-router.post('/', body(), auth(true), params(['name']), async (ctx) => {
+router.post('/', body(), auth(true), params(['name', 'address']), async (ctx) => {
     const body = ctx.request.body;
 
     const nBathroom = await ctx.db.models.bathroom.create({
         name: body.name,
+        address: body.address,
     });
 
     ctx.body = {

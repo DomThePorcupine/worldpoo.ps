@@ -6,13 +6,14 @@ const bcrypt = require('bcrypt');
 // -- Local imports -- //
 const params = require('../middleware/params');
 const auth = require('../middleware/auth');
+const { SIGN_UP } = require('../constants');
 
 const router = new Router({
     prefix: '/user',
 });
 
 /**
- * @api {post} api/v1/user/register Register as a new user
+ * @api {post} v1/user/register Register as a new user
  * @apiName Register
  * @apiGroup User
  *
@@ -56,6 +57,7 @@ router.post('/register', body(), params(['username', 'password']), async (ctx) =
         password: hsh,
     });
 
+    ctx.db.track(SIGN_UP, { username: body.username });
 
     ctx.body = {
         response: 'ok',
@@ -75,7 +77,7 @@ router.get('/whois', auth(), async (ctx) => {
 
 
 /**
- * @api {put} api/v1/user/ Update a user's info
+ * @api {put} v1/user/ Update a user's info
  * @apiName Update
  * @apiGroup User
  *

@@ -5,6 +5,7 @@ const body = require('koa-bodyparser');
 // -- Local imports -- //
 const auth = require('../middleware/auth');
 const params = require('../middleware/params');
+const { TALE_POST } = require('../constants');
 
 const router = new Router({
     prefix: '/tale',
@@ -79,7 +80,7 @@ router.get('/:id', auth(), async (ctx) => {
         include: [{
             model: ctx.db.models.stall,
             as: 'stall',
-            attributes: ['address', 'name'],
+            attributes: ['name'],
         }, {
             model: ctx.db.models.user,
             as: 'user',
@@ -146,7 +147,13 @@ router.post('/', body(), auth(), params(['taleText', 'stallId']), async (ctx) =>
         return;
     }
 
-    const stall = await ctx.db.models.stall.findByPk(body.stallId);
+    const stall = await ctx.db.models.stall.findByPk(body.stallId, {
+        include: [{
+            model: ctx.db.models.bathroom,
+            as: 'bathroom',
+            attributes: ['name']
+        }]
+    });
 
     if (stall === null) {
         ctx.body = {
@@ -163,6 +170,8 @@ router.post('/', body(), auth(), params(['taleText', 'stallId']), async (ctx) =>
         UserId: ctx.user.id,
         StallId: stall.id,
     });
+
+    ctx.db.track(TALE_POST, { stall: stall.name, bathroom: stall.bathroom.name, text: body.taleText });
 
     ctx.body = {
         response: 'success',

@@ -1,3 +1,4 @@
+require('dotenv').config();
 // -- Third party imports -- //
 const Koa = require('koa');
 const logger = require('koa-logger');

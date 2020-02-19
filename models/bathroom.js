@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true,
         },
+        address: DataTypes.STRING,
     }, {});
     Bathroom.associate = function (models) {
         // associations can be defined here

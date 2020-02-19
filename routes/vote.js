@@ -6,6 +6,8 @@ const body = require('koa-bodyparser');
 const auth = require('../middleware/auth');
 const params = require('../middleware/params');
 
+const { TALE_VOTE } = require('../constants');
+
 const router = new Router({
     prefix: '/vote',
 });
@@ -91,7 +93,7 @@ router.post('/', auth(), body(), params(['taleId']), async (ctx) => {
     });
 
 
-
+    ctx.db.track(TALE_VOTE, { text: tale.taleText });
 
     ctx.body = {
         response: 'ok',

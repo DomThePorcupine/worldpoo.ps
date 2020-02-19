@@ -25,7 +25,7 @@ router.get('/random', async (ctx) => {
 });
 
 /**
- * @api {get} api/v1/stall/:id/noauth Get some basic info about a stall
+ * @api {get} /v1/stall/:id/noauth Get some basic info about a stall
  * @apiName GetNoAuthStall
  * @apiGroup Stall
  *
@@ -68,7 +68,7 @@ router.get('/:id/noauth', async (ctx) => {
 
 
 /**
- * @api {get} api/v1/stall/:id Get info about a stall
+ * @api {get} /v1/stall/:id Get info about a stall
  * @apiName GetStall
  * @apiGroup Stall
  *
@@ -77,7 +77,6 @@ router.get('/:id/noauth', async (ctx) => {
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     {
- *       "address": "Some Address on some floor",
  *       "name": "The name of the stall",
  *       "tales": [{
  *          "taleText": "Here is an example tale",
@@ -99,7 +98,7 @@ router.get('/:id/noauth', async (ctx) => {
  */
 router.get('/:id', auth(), async (ctx) => {
     const stall = await ctx.db.models.stall.findByPk(ctx.params.id, {
-        attributes: ['address', 'name', 'createdAt'],
+        attributes: ['name', 'createdAt'],
         include: [{
             model: ctx.db.models.tale,
             as: 'tales',
@@ -168,19 +167,19 @@ router.get('/:id', auth(), async (ctx) => {
         myRating = rating.score;
     }
 
-    ctx.body = { address: stall.address, name: stall.name, tales, myRating, averageScore: Number(averageScore.get().average) };
+    ctx.body = { name: stall.name, tales, myRating, averageScore: Number(averageScore.get().average) };
     ctx.status = 200;
     return;
 });
 
 
 /**
- * @api {post} api/v1/stall Create a new stall (Requires admin)
+ * @api {post} /v1/stall Create a new stall (Requires admin)
  * @apiName CreateStall
  * @apiGroup Stall
  *
- * @apiParam {string} address The address of the stall (can have extra info like floor #)
  * @apiParam {string} name The stall name
+ * @apiParam {string} bathroomId The bathroom id this stall belongs to
  *
  * @apiSuccess {number} response The stall id
  *
@@ -191,11 +190,10 @@ router.get('/:id', auth(), async (ctx) => {
  *     }
  *
  */
-router.post('/', body(), auth(true), params(['address', 'name', 'bathroomId']), async (ctx) => {
+router.post('/', body(), auth(true), params(['name', 'bathroomId']), async (ctx) => {
     const body = ctx.request.body;
 
     const nStall = await ctx.db.models.stall.create({
-        address: body.address,
         name: body.name,
         BathroomId: body.bathroomId,
     });
