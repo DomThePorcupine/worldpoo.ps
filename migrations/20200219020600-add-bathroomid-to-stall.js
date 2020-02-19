@@ -16,9 +16,7 @@ module.exports = {
                 model: 'Bathrooms',
                 key: 'id'
             },
-            defaultValue: 1,
-            allowNull: false
-        });
+        })
     },
 
     down: (queryInterface, Sequelize) => {
