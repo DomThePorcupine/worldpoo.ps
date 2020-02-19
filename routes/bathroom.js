@@ -111,6 +111,14 @@ router.get('/:id/feed', auth(), async (ctx) => {
         }],
     });
 
+    if (bathroom === null) {
+        ctx.body = {
+            response: 'not found'
+        }
+        ctx.status = 404;
+        return;
+    }
+
     const stallIds = bathroom.stalls.map((stall) => { return stall.id });
 
     const stalls = await ctx.db.models.stall.findAll({
