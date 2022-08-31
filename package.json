@@ -41,7 +41,7 @@
     "lodash": "^4.17.15",
     "mailgun-js": "^0.22.0",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "pg": "^7.17.1",
     "pg-hstore": "^2.3.3",
     "react": "^16.12.0",
